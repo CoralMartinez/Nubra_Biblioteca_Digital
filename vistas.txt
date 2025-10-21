@@ -1,0 +1,132 @@
+Reporte de Vistas – Proyecto Biblioteca Digital
+1. Vista de Inicio de Sesión (Login)
+
+Ubicación: /login
+Propósito: Permitir que el usuario o administrador acceda al sistema mediante sus credenciales.
+Requisitos:
+
+Formulario con campos correo y contraseña.
+
+Validaciones en tiempo real (formato de correo, campos vacíos).
+
+Botón de acceso y enlace a registro.
+
+Redirección según rol (usuario → home, admin → panel).
+
+Mensajes de error amigables.
+
+2. Vista de Registro (Sign Up)
+
+Ubicación: /register
+Propósito: Permitir que nuevos usuarios creen su cuenta.
+Requisitos:
+
+Formulario con campos: nombre, correo, contraseña, confirmar contraseña.
+
+Encriptación de contraseñas.
+
+Validación de duplicados (correo único).
+
+Redirección automática al login tras registro exitoso.
+
+3. Página Principal (Home)
+
+Ubicación: /
+Propósito: Mostrar la interfaz general del sistema con acceso rápido a los módulos principales.
+Requisitos:
+
+Barra de navegación con enlaces a catálogo, préstamos, perfil, y cerrar sesión.
+
+Muestra dinámica de libros destacados y buscador general.
+
+Diseño responsivo (desktop/tablet/móvil).
+
+4. Vista de Catálogo / Repositorio Digital
+
+Ubicación: /catalogo
+Propósito: Permitir consultar los libros digitales y físicos disponibles.
+Requisitos:
+
+Buscador avanzado con filtros (autor, género, idioma, disponibilidad).
+
+Muestra de portada, título, autor y opciones (ver más / descargar).
+
+Integración futura con backend (para mostrar datos desde BD).
+
+Solo frontend en los primeros sprints.
+
+5. Vista de Detalle de Libro
+
+Ubicación: /libro/{id}
+Propósito: Mostrar información completa de un libro.
+Requisitos:
+
+Datos: título, autor, año, sinopsis, disponibilidad, enlace de descarga.
+
+Botones: “Reservar”, “Prestar” (si aplica).
+
+Retorno al catálogo.
+
+6. Vista de Usuario (Mi Perfil)
+
+Ubicación: /usuario
+Propósito: Permitir que el usuario vea y edite su información personal.
+Requisitos:
+
+Mostrar datos personales y credenciales (excepto contraseña en texto).
+
+Opciones: editar, actualizar, eliminar cuenta.
+
+Validaciones y confirmaciones antes de eliminar perfil.
+
+Conexión al backend mediante controladores de usuario.
+
+7. Vista de Administración
+
+Ubicación: /admin
+Propósito: Panel para el administrador con gestión de usuarios, libros y estadísticas.
+Requisitos:
+
+Menú lateral con acceso a submódulos.
+
+Subvistas: gestión de libros (CRUD), gestión de usuarios, estadísticas.
+
+Control de acceso solo para usuarios con rol administrador.
+
+8. Vista de Inventario de Libros (CRUD)
+
+Ubicación: /admin/libros
+Propósito: Gestionar el catálogo físico y digital de la biblioteca.
+Requisitos:
+
+Formulario para agregar, editar o eliminar libros.
+
+Validación de campos obligatorios (título, autor, ISBN).
+
+Listado dinámico con opciones CRUD.
+
+Conexión directa con base de datos.
+
+9. Vista de Préstamos / Reservas
+
+Ubicación: /prestamos
+Propósito: Gestionar las solicitudes de préstamo de libros.
+Requisitos:
+
+Formulario para generar préstamo (selección de libro, fechas).
+
+Listado de préstamos activos y vencidos.
+
+Envío de recordatorios o alertas (notificación interna).
+
+Interfaz visual amigable y simple.
+
+10. Vista de Error / Acceso Restringido
+
+Ubicación: /403 o /error
+Propósito: Mostrar mensaje de error o acceso denegado.
+Requisitos:
+
+Mensaje claro con opción para regresar al inicio.
+
+Compatible con manejo de excepciones de Laravel.
