@@ -1,139 +1,99 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Iniciar Sesión - Nubra</title>
-  <style>
-    body { 
-      font-family: Arial; 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display:flex; 
-      justify-content:center; 
-      align-items:center; 
-      height:100vh;
-      margin: 0;
-    }
-    .form-container { 
-      background:white; 
-      padding:40px; 
-      border-radius:15px; 
-      width:350px; 
-      box-shadow:0 10px 40px rgba(0,0,0,0.2); 
-    }
-    h3 { 
-      text-align:center; 
-      color:#333; 
-      margin-bottom:30px;
-      font-size: 24px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      color: #555;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    input { 
-      width:100%; 
-      padding:12px; 
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: border-color 0.3s;
-      box-sizing: border-box;
-    }
-    input:focus {
-      outline: none;
-      border-color: #667eea;
-    }
-    button { 
-      width:100%; 
-      padding:14px; 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color:white; 
-      border:none; 
-      border-radius:8px; 
-      cursor:pointer;
-      font-size: 16px;
-      font-weight: 600;
-      transition: transform 0.2s;
-    }
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
-    .link-container { 
-      text-align:center; 
-      margin-top:20px; 
-    }
-    a { 
-      color:#667eea; 
-      text-decoration:none;
-      font-weight: 500;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .error { 
-      color:white;
-      background-color: #e74c3c;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      text-align: center;
-      font-size: 14px;
-    }
-    .success {
-      background-color: #d4edda;
-      color: #155724;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Biblioteca Digital</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ asset('css/auth-styles.css') }}">
 </head>
 <body>
-  <div class="form-container">
-    <form action="{{ url('/login') }}" method="POST">
-      @csrf
-      <h3>📚 Biblioteca Digital</h3>
-
-      @if(session('success'))
-        <div class="success">{{ session('success') }}</div>
-      @endif
-
-      @if ($errors->has('login_error'))
-        <div class="error">{{ $errors->first('login_error') }}</div>
-      @endif
-
-      <div class="form-group">
-        <label>Correo Electrónico</label>
-        <input type="email" name="email" value="{{ old('email') }}" required autofocus>
-        @error('email')
-          <div style="color:#e74c3c; font-size:12px; margin-top:5px;">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <div class="form-group">
-        <label>Contraseña</label>
-        <input type="password" name="password" required>
-        @error('password')
-          <div style="color:#e74c3c; font-size:12px; margin-top:5px;">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <button type="submit">Iniciar Sesión</button>
-
-      <div class="link-container">
-        <a href="{{ route('register') }}">¿No tienes cuenta? Regístrate</a>
-      </div>
-    </form>
-  </div>
+    <div class="bg-image login-bg"></div>
+    
+    <div class="card auth-card" style="width: 100%; max-width: 450px;">
+        <div class="card-body p-4 p-sm-5">
+            <!-- Logo -->
+            <div class="logo-circle">
+                <i class="bi bi-book fs-2 text-white"></i>
+            </div>
+            
+            <!-- Título -->
+            <h2 class="text-center fw-bold mb-2">Iniciar Sesión</h2>
+            <p class="text-center text-muted mb-4">Ingresa tus credenciales para acceder a la biblioteca</p>
+            
+            <!-- Mensajes -->
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            @endif
+            
+            @if($errors->has('login_error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle me-2"></i>{{ $errors->first('login_error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            @endif
+            
+            <!-- Formulario de LOGIN -->
+            <form action="{{ url('/login') }}" method="POST">
+                @csrf
+                
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input 
+                        type="email" 
+                        class="form-control @error('email') is-invalid @enderror" 
+                        id="email" 
+                        name="email" 
+                        value="{{ old('email') }}" 
+                        placeholder="tu@email.com" 
+                        required 
+                        autofocus
+                    >
+                    @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <!-- Contraseña -->
+                <div class="mb-4">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input 
+                        type="password" 
+                        class="form-control @error('password') is-invalid @enderror" 
+                        id="password" 
+                        name="password" 
+                        placeholder="••••••••" 
+                        required
+                    >
+                    @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <!-- Botón submit -->
+                <button type="submit" class="btn btn-primary w-100">
+                    Iniciar Sesión
+                </button>
+            </form>
+            
+            <!-- Link a registro -->
+            <p class="text-center text-muted mb-0 mt-4">
+                ¿No tienes cuenta? 
+                <a href="{{ route('register') }}" class="link-primary text-decoration-none">Regístrate</a>
+            </p>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<?php
