@@ -15,6 +15,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
+
 // Ruta protegida (ejemplo)
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -23,6 +24,7 @@ Route::get('/dashboard', function () {
 //Navegación
 Route::resource('/home', App\Http\Controllers\HomeController::class);
 
+//Controladores
 //route::get('/inicio', [InicioController::class, 'inicio']);
 
 //route::get('/repositorio', [InicioController::class, 'repositorio']);
@@ -35,7 +37,7 @@ Route::middleware('auth')->group(function () {
     // Inicio
     Route::get('/inicio', [InicioController::class, 'index'])->name('home');
     
-    // Perfil
+    // Perfil del usuario
     Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
     Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.update');
     

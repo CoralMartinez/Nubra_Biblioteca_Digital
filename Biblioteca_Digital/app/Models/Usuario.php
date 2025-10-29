@@ -12,7 +12,7 @@ class Usuario extends Authenticatable
     protected $table = 'usuarios';
 
     /**
-     * The attributes that are mass assignable.
+     * Atributos asignables de forma masiva
      */
     protected $fillable = [
         'nombre',
@@ -26,7 +26,7 @@ class Usuario extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Atributos que deben de permanecer ocultos para la serialización
      */
     protected $hidden = [
         'contrasena',
@@ -34,7 +34,7 @@ class Usuario extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Atributos que deben de convertirse a otros tipos de datos 
      */
     protected $casts = [
         'fecha_nacimiento' => 'date',
@@ -43,7 +43,8 @@ class Usuario extends Authenticatable
     ];
 
     /**
-     * Get the password for authentication.
+     * Se obtiene la contraseña para su autenticación
+     * 
      * Laravel espera un campo 'password', pero nosotros usamos 'contrasena'
      */
     public function getAuthPassword()
@@ -52,7 +53,7 @@ class Usuario extends Authenticatable
     }
 
     /**
-     * Get the name of the unique identifier for the user.
+     * Obtiene el nombre del identificador único del usuario.
      * Laravel espera 'email', pero nosotros usamos 'correo'
      */
     public function getEmailForPasswordReset()
@@ -61,7 +62,9 @@ class Usuario extends Authenticatable
     }
 
     /**
-     * Accessor para obtener apellidos completos
+     * Accessor para obtener apellidos completos. 
+     * Obtención del apellido paterno & materno del usuario (personalizada & 
+     * concatenación de ambos campos del modelo de usuario)
      */
     public function getApellidosAttribute()
     {
@@ -69,7 +72,7 @@ class Usuario extends Authenticatable
     }
 
     /**
-     * Accessor para obtener nombre completo
+     * Accessor para obtener nombre completo & concatenación de nombre y apellidos...
      */
     public function getNombreCompletoAttribute()
     {
