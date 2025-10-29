@@ -5,7 +5,7 @@ use App\Http\Controllers\InicioController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // Rutas de autenticación (guest - solo para usuarios no autenticados)
