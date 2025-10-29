@@ -1,171 +1,173 @@
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Registro - Biblioteca Digital</title>
-  <style>
-    body { 
-      font-family: Arial; 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display:flex; 
-      justify-content:center; 
-      align-items:center; 
-      min-height:100vh;
-      margin: 0;
-      padding: 20px;
-    }
-    .form-container { 
-      background:white; 
-      padding:30px; 
-      border-radius:15px; 
-      width:400px; 
-      max-width: 100%;
-      box-shadow:0 10px 40px rgba(0,0,0,0.2); 
-    }
-    h3 { 
-      text-align:center; 
-      color:#333; 
-      margin-bottom:25px;
-      font-size: 24px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      color: #555;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    input { 
-      width:100%; 
-      padding:12px; 
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: border-color 0.3s;
-      box-sizing: border-box;
-    }
-    input:focus {
-      outline: none;
-      border-color: #667eea;
-    }
-    .error { 
-      color:#e74c3c; 
-      font-size:12px;
-      margin-top: 5px;
-    }
-    button { 
-      width:100%; 
-      padding:14px; 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color:white; 
-      border:none; 
-      border-radius:8px; 
-      cursor:pointer;
-      font-size: 16px;
-      font-weight: 600;
-      margin-top: 10px;
-      transition: transform 0.2s;
-    }
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
-    .link-container { 
-      text-align:center; 
-      margin-top:20px; 
-    }
-    a { 
-      color:#667eea; 
-      text-decoration:none;
-      font-weight: 500;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .success {
-      background-color: #d4edda;
-      color: #155724;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Biblioteca Digital</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ asset('css/auth-styles.css') }}">
 </head>
 <body>
-  <div class="form-container">
-    <form action="{{ url('/register') }}" method="POST">
-      @csrf
-      <h3>📚 Registro - Biblioteca Digital</h3>
-
-      @if(session('success'))
-        <div class="success">{{ session('success') }}</div>
-      @endif
-
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" name="nombre" value="{{ old('nombre') }}" required>
-        @error('nombre')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <div class="form-group">
-        <label>Apellido Paterno</label>
-        <input type="text" name="apellido_paterno" value="{{ old('apellido_paterno') }}" required>
-        @error('apellido_paterno')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <div class="form-group">
-        <label>Apellido Materno</label>
-        <input type="text" name="apellido_materno" value="{{ old('apellido_materno') }}" required>
-        @error('apellido_materno')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <div class="form-group">
-        <label>Correo Electrónico</label>
-        <input type="email" name="email" value="{{ old('email') }}" required>
-        @error('email')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <div class="form-group">
-        <label>Fecha de Nacimiento</label>
-        <input type="date" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" required>
-        @error('fecha_nacimiento')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <div class="form-group">
-        <label>Contraseña</label>
-        <input type="password" name="password" required>
-        @error('password')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <div class="form-group">
-        <label>Confirmar Contraseña</label>
-        <input type="password" name="password_confirmation" required>
-      </div>
-
-      <button type="submit">Crear Cuenta</button>
-
-      <div class="link-container">
-        <a href="{{ route('login') }}">¿Ya tienes cuenta? Inicia sesión</a>
-      </div>
-    </form>
-  </div>
+    <div class="bg-image register-bg"></div>
+    
+    <div class="card auth-card" style="width: 100%; max-width: 500px; margin: 40px 0;">
+        <div class="card-body p-4 p-sm-5">
+            <!-- Logo -->
+            <div class="logo-circle">
+                <i class="bi bi-book fs-2 text-white"></i>
+            </div>
+            
+            <!-- Título -->
+            <h2 class="text-center fw-bold mb-2">Crear Cuenta</h2>
+            <p class="text-center text-muted mb-4">Completa el formulario para registrarte</p>
+            
+            <!-- Mensajes -->
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            @endif
+            
+            <!-- Formulario -->
+            <form action="{{ url('/register') }}" method="POST">
+                @csrf
+                
+                <!-- Nombre -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input 
+                        type="text" 
+                        class="form-control @error('nombre') is-invalid @enderror" 
+                        id="nombre" 
+                        name="nombre" 
+                        value="{{ old('nombre') }}" 
+                        placeholder="Juan" 
+                        required
+                    >
+                    @error('nombre')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <!-- Apellidos en dos columnas -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="apellido_paterno" class="form-label">Apellido Paterno</label>
+                        <input 
+                            type="text" 
+                            class="form-control @error('apellido_paterno') is-invalid @enderror" 
+                            id="apellido_paterno" 
+                            name="apellido_paterno" 
+                            value="{{ old('apellido_paterno') }}" 
+                            placeholder="Pérez" 
+                            required
+                        >
+                        @error('apellido_paterno')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="apellido_materno" class="form-label">Apellido Materno</label>
+                        <input 
+                            type="text" 
+                            class="form-control @error('apellido_materno') is-invalid @enderror" 
+                            id="apellido_materno" 
+                            name="apellido_materno" 
+                            value="{{ old('apellido_materno') }}" 
+                            placeholder="García" 
+                            required
+                        >
+                        @error('apellido_materno')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input 
+                        type="email" 
+                        class="form-control @error('email') is-invalid @enderror" 
+                        id="email" 
+                        name="email" 
+                        value="{{ old('email') }}" 
+                        placeholder="tu@email.com" 
+                        required
+                    >
+                    @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <!-- Fecha de Nacimiento -->
+                <div class="mb-3">
+                    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                    <input 
+                        type="date" 
+                        class="form-control @error('fecha_nacimiento') is-invalid @enderror" 
+                        id="fecha_nacimiento" 
+                        name="fecha_nacimiento" 
+                        value="{{ old('fecha_nacimiento') }}" 
+                        required
+                    >
+                    @error('fecha_nacimiento')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <!-- Contraseñas en dos columnas -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input 
+                            type="password" 
+                            class="form-control @error('password') is-invalid @enderror" 
+                            id="password" 
+                            name="password" 
+                            placeholder="••••••••" 
+                            required
+                        >
+                        @error('password')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="password_confirmation" class="form-label">Repetir Contraseña</label>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="password_confirmation" 
+                            name="password_confirmation" 
+                            placeholder="••••••••" 
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <!-- Botón submit -->
+                <button type="submit" class="btn btn-primary w-100">
+                    Crear Cuenta
+                </button>
+            </form>
+            
+            <!-- Link a login -->
+            <p class="text-center text-muted mb-0 mt-4">
+                ¿Ya tienes cuenta? 
+                <a href="{{ route('login') }}" class="link-primary text-decoration-none">Inicia sesión</a>
+            </p>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<?php

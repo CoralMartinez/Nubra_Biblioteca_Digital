@@ -10,9 +10,10 @@ class Usuario extends Authenticatable
     use Notifiable;
 
     protected $table = 'usuarios';
-    protected $primaryKey = 'id';
-    public $timestamps = false;
 
+    /**
+     * The attributes that are mass assignable.
+     */
     protected $fillable = [
         'nombre',
         'apellido_paterno',
@@ -20,27 +21,66 @@ class Usuario extends Authenticatable
         'correo',
         'contrasena',
         'fecha_nacimiento',
+        'activo',
+        'ultimo_acceso',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     */
     protected $hidden = [
         'contrasena',
+        'remember_token',
     ];
 
-    // Laravel usa 'password' por defecto, pero nuestra columna es 'contrasena'
+    /**
+     * The attributes that should be cast.
+     */
+    protected $casts = [
+        'fecha_nacimiento' => 'date',
+        'ultimo_acceso' => 'datetime',
+        'activo' => 'boolean',
+    ];
+
+    /**
+     * Get the password for authentication.
+     * Laravel espera un campo 'password', pero nosotros usamos 'contrasena'
+     */
     public function getAuthPassword()
     {
         return $this->contrasena;
     }
 
-    // Laravel usa 'email' por defecto, pero nuestra columna es 'correo'
+    /**
+     * Get the name of the unique identifier for the user.
+     * Laravel espera 'email', pero nosotros usamos 'correo'
+     */
     public function getEmailForPasswordReset()
     {
         return $this->correo;
     }
 
-    // Método para obtener el nombre completo
+    /**
+     * Accessor para obtener apellidos completos
+     */
+    public function getApellidosAttribute()
+    {
+        return trim($this->apellido_paterno . ' ' . $this->apellido_materno);
+    }
+
+    /**
+     * Accessor para obtener nombre completo
+     */
     public function getNombreCompletoAttribute()
     {
-        return "{$this->nombre} {$this->apellido_paterno} {$this->apellido_materno}";
+        return trim($this->nombre . ' ' . $this->apellido_paterno . ' ' . $this->apellido_materno);
+    }
+
+    /**
+     * Accessor para email (compatibilidad con Laravel)
+     */
+    public function getEmailAttribute()
+    {
+        return $this->correo;
     }
 }
