@@ -1,0 +1,3 @@
+//Modelo para "Administrador"
+
+<?php
