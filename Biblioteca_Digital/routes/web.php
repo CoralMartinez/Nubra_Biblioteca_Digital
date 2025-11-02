@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RepositorioController;
+use App\Http\Controllers\InventarioController;
+
 
 Route::get('/', function () {
     return view('auth.login');
