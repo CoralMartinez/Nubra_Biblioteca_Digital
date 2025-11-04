@@ -73,7 +73,7 @@ class AuthController extends Controller
             ->limit(1)
             ->update(['exitoso' => 1]);
 
-        return redirect()->intended('/dashboard');
+        return redirect()->intended('/inicio');
     }
 
     // Mostrar formulario de registro
