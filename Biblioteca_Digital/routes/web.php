@@ -66,3 +66,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [InventarioController::class, 'destroy'])->name('destroy');
     });
 });
+Route::get('/repositorio2', function () {
+    return view('repositorio2');
+});
