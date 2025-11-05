@@ -508,12 +508,12 @@
         <div class="header">
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-circle">📚</div>
+                    <div class="logo-circle">R</div>
                     Repositorio Digital
                 </div>
                 <div class="search-bar">
                     <input type="text" id="searchInput" placeholder="Buscar por título, autor, género...">
-                    <span class="search-icon">🔍</span>
+                    <span class="search-icon"></span>
                 </div>
                 <a href="#" class="btn btn-primary">
                     ➕ Subir Libro
@@ -524,21 +524,21 @@
         <!-- Stats Bar -->
         <div class="stats-bar">
             <div class="stat-card">
-                <div class="stat-icon">📖</div>
+                <div class="stat-icon"></div>
                 <div class="stat-info">
                     <h3>1,234</h3>
                     <p>Libros Digitales</p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">⬇️</div>
+                <div class="stat-icon">⬇</div>
                 <div class="stat-info">
                     <h3>12,567</h3>
                     <p>Descargas</p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">👁️</div>
+                <div class="stat-icon"></div>
                 <div class="stat-info">
                     <h3>45,890</h3>
                     <p>Visualizaciones</p>
@@ -591,13 +591,13 @@
         <!-- Container -->
         <div class="container">
             <!-- Libros Destacados -->
-            <h2 class="section-title">🌟 Libros Destacados</h2>
+            <h2 class="section-title">Libros Destacados</h2>
             <div class="books-grid" id="destacadosGrid">
                 <!-- Libro 1 -->
                 <div class="book-card">
-                    <div class="book-badge popular">⭐ Popular</div>
+                    <div class="book-badge popular">Popular</div>
                     <div class="book-cover">
-                        📘
+                        
                     </div>
                     <div class="book-info">
                         <h3 class="book-title">Cien Años de Soledad</h3>
@@ -608,7 +608,7 @@
                         </div>
                         <div class="book-stats">
                             <span>👁️ 1,234</span>
-                            <span>⬇️ 567</span>
+                            <span>⬇ 567</span>
                         </div>
                         <div class="book-actions">
                             <button class="btn btn-view" onclick="verLibro(1)">Ver</button>
@@ -619,9 +619,9 @@
 
                 <!-- Libro 2 -->
                 <div class="book-card">
-                    <div class="book-badge new">🆕 Nuevo</div>
+                    <div class="book-badge new">Nuevo</div>
                     <div class="book-cover">
-                        📗
+                        
                     </div>
                     <div class="book-info">
                         <h3 class="book-title">El Principito</h3>
@@ -632,7 +632,7 @@
                         </div>
                         <div class="book-stats">
                             <span>👁️ 892</span>
-                            <span>⬇️ 445</span>
+                            <span>⬇ 445</span>
                         </div>
                         <div class="book-actions">
                             <button class="btn btn-view" onclick="verLibro(2)">Ver</button>
@@ -644,7 +644,7 @@
                 <!-- Libro 3 -->
                 <div class="book-card">
                     <div class="book-cover">
-                        📕
+                        
                     </div>
                     <div class="book-info">
                         <h3 class="book-title">1984</h3>
@@ -655,7 +655,7 @@
                         </div>
                         <div class="book-stats">
                             <span>👁️ 756</span>
-                            <span>⬇️ 389</span>
+                            <span>⬇ 389</span>
                         </div>
                         <div class="book-actions">
                             <button class="btn btn-view" onclick="verLibro(3)">Ver</button>
@@ -667,7 +667,7 @@
                 <!-- Libro 4 -->
                 <div class="book-card">
                     <div class="book-cover">
-                        📙
+                        
                     </div>
                     <div class="book-info">
                         <h3 class="book-title">Don Quijote de la Mancha</h3>
@@ -678,7 +678,7 @@
                         </div>
                         <div class="book-stats">
                             <span>👁️ 2,145</span>
-                            <span>⬇️ 998</span>
+                            <span>⬇ 998</span>
                         </div>
                         <div class="book-actions">
                             <button class="btn btn-view" onclick="verLibro(4)">Ver</button>
@@ -689,7 +689,7 @@
             </div>
 
             <!-- Todos los Libros -->
-            <h2 class="section-title">📚 Catálogo Completo</h2>
+            <h2 class="section-title">Catálogo Completo</h2>
             <div class="books-grid" id="catalogoGrid">
                 <!-- Aquí se cargarán más libros dinámicamente -->
                 <div class="loading">
@@ -744,7 +744,7 @@
         setTimeout(() => {
             document.querySelector('.loading').innerHTML = `
                 <div class="empty-state">
-                    <div class="empty-state-icon">✅</div>
+                    <div class="empty-state-icon"></div>
                     <h3>¡Todos los libros cargados!</h3>
                     <p>Mostrando 4 de 1,234 libros disponibles</p>
                 </div>
