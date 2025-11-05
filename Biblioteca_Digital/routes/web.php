@@ -63,3 +63,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [InventarioController::class, 'destroy'])->name('destroy');
     });
 });
+
+//RUTA PARA COMPROBACIÓN DEL CRUD REPOSITORIO
+Route::get('/repositorio-crud', function () {
+    
+    return view('auth.repositorio-crud');
+});
