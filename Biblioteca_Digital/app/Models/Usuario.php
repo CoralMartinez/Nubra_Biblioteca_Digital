@@ -8,9 +8,8 @@ use Illuminate\Notifications\Notifiable;
 class Usuario extends Authenticatable
 {
     use Notifiable;
-    public $timestamps = false; // 👈 Desactiva created_at y updated_at
+    public $timestamps = false; //  Desactiva created_at y updated_at
 
-    public $timestamps = false; // 👈 Desactiva created_at y updated_at
 
     protected $table = 'usuarios';
 
