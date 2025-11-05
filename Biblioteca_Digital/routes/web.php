@@ -21,14 +21,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
 
-//Navegación
+// Navegación
 Route::resource('/home', App\Http\Controllers\HomeController::class);
 
-//Controladores
-//route::get('/inicio', [InicioController::class, 'inicio']);
-
-//route::get('/repositorio', [InicioController::class, 'repositorio']);
-
+// Controladores
+// route::get('/inicio', [InicioController::class, 'inicio']);
+// route::get('/repositorio', [InicioController::class, 'repositorio']);
 
 Route::middleware('auth')->group(function () {
     // Cerrar sesión
@@ -62,4 +60,38 @@ Route::middleware('auth')->group(function () {
         Route::put('/{id}', [InventarioController::class, 'update'])->name('update');
         Route::delete('/{id}', [InventarioController::class, 'destroy'])->name('destroy');
     });
+});
+
+// ------------------------------------------------------
+// 🌿 Ruta temporal para probar la vista del Repositorio de Libros
+// (Solo para verificar que repositorio-libros.blade.php funciona correctamente)
+// ------------------------------------------------------
+Route::get('/repositorio-libros', function () {
+    // Datos de ejemplo (solo para pruebas)
+    $libros = collect([
+        (object)[
+            'idLibro' => 1,
+            'titulo' => 'Cien años de soledad',
+            'autor' => 'Gabriel García Márquez',
+            'descripcion' => 'Una obra maestra del realismo mágico latinoamericano.',
+            'imagen' => 'https://m.media-amazon.com/images/I/81af+MCATTL._AC_UF1000,1000_QL80_.jpg'
+        ],
+        (object)[
+            'idLibro' => 2,
+            'titulo' => 'Rayuela',
+            'autor' => 'Julio Cortázar',
+            'descripcion' => 'Una novela experimental que desafía las normas literarias.',
+            'imagen' => 'https://m.media-amazon.com/images/I/71iZT9X6TFL._AC_UF1000,1000_QL80_.jpg'
+        ],
+        (object)[
+            'idLibro' => 3,
+            'titulo' => 'El Principito',
+            'autor' => 'Antoine de Saint-Exupéry',
+            'descripcion' => 'Un clásico lleno de enseñanzas sobre la vida, el amor y la amistad.',
+            'imagen' => 'https://m.media-amazon.com/images/I/61yD3F8xw2L._AC_UF1000,1000_QL80_.jpg'
+        ],
+    ]);
+
+    // Retornar la vista repositorio-libros.blade.php con los datos simulados
+    return view('repositorio-libros', compact('libros'));
 });
