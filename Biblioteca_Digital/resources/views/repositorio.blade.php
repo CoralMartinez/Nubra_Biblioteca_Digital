@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Repositorio Digital - Nubra Biblioteca</title>
     <style>
+        /* Variables de color */
+        :root {
+            --bs-primary: #8b6f47;
+            --bs-primary-rgb: 139, 111, 71;
+            --bs-primary-hover: #75614a;
+            --bs-dark: #1a1a1a;
+            --bs-light: #f8f9fa;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,20 +22,40 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
             min-height: 100vh;
-            color: #fff;
+            color: #333;
+            background-color: var(--bs-dark);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background con imagen */
+        .bg-image {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.3);
+            background-image: url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1920&q=80');
+        }
+
+        /* Contenedor principal */
+        .main-content {
+            position: relative;
+            z-index: 1;
         }
 
         /* Header */
         .header {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 20px 0;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid var(--bs-primary);
         }
 
         .header-content {
@@ -46,6 +75,19 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            color: var(--bs-primary);
+        }
+
+        .logo-circle {
+            width: 48px;
+            height: 48px;
+            background-color: var(--bs-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
         }
 
         .search-bar {
@@ -57,23 +99,22 @@
         .search-bar input {
             width: 100%;
             padding: 15px 50px 15px 20px;
-            border: none;
+            border: 2px solid rgba(139, 111, 71, 0.2);
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            color: white;
+            background: white;
+            color: #333;
             font-size: 16px;
             transition: all 0.3s;
         }
 
         .search-bar input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(0, 0, 0, 0.5);
         }
 
         .search-bar input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.25rem rgba(139, 111, 71, 0.25);
         }
 
         .search-icon {
@@ -83,6 +124,7 @@
             transform: translateY(-50%);
             font-size: 20px;
             cursor: pointer;
+            color: var(--bs-primary);
         }
 
         .btn {
@@ -100,23 +142,27 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: var(--bs-primary) !important;
             color: white;
+            border: 2px solid var(--bs-primary);
         }
 
         .btn-primary:hover {
+            background-color: var(--bs-primary-hover) !important;
+            border-color: var(--bs-primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(139, 111, 71, 0.3);
         }
 
         /* Filters */
         .filters {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 25px;
             margin: 30px auto;
             max-width: 1400px;
             border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .filter-group {
@@ -129,23 +175,25 @@
         .filter-group select,
         .filter-group input {
             padding: 12px 20px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(139, 111, 71, 0.2);
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            background: white;
+            color: #333;
             font-size: 14px;
             min-width: 150px;
+            font-weight: 500;
         }
 
         .filter-group select:focus,
         .filter-group input:focus {
             outline: none;
-            border-color: rgba(255, 255, 255, 0.5);
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.25rem rgba(139, 111, 71, 0.25);
         }
 
         .filter-group option {
-            background: #1e3c72;
-            color: white;
+            background: white;
+            color: #333;
         }
 
         /* Stats Bar */
@@ -159,7 +207,7 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 20px 30px;
             border-radius: 15px;
@@ -168,6 +216,8 @@
             gap: 15px;
             flex: 1;
             min-width: 200px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(139, 111, 71, 0.1);
         }
 
         .stat-icon {
@@ -177,11 +227,12 @@
         .stat-info h3 {
             font-size: 28px;
             font-weight: 700;
+            color: var(--bs-primary);
         }
 
         .stat-info p {
             font-size: 14px;
-            opacity: 0.8;
+            color: #666;
         }
 
         /* Books Grid */
@@ -198,6 +249,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .books-grid {
@@ -208,26 +261,28 @@
         }
 
         .book-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             overflow: hidden;
             transition: all 0.3s;
             cursor: pointer;
             position: relative;
+            border: 1px solid rgba(139, 111, 71, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .book-card:hover {
             transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border-color: var(--bs-primary);
         }
 
         .book-cover {
             width: 100%;
             height: 320px;
             object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-primary-hover) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -273,11 +328,12 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             line-height: 1.4;
+            color: #333;
         }
 
         .book-author {
             font-size: 14px;
-            opacity: 0.8;
+            color: #666;
             margin-bottom: 12px;
         }
 
@@ -293,14 +349,15 @@
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(139, 111, 71, 0.1);
+            color: var(--bs-primary);
         }
 
         .book-stats {
             display: flex;
             justify-content: space-between;
             font-size: 13px;
-            opacity: 0.9;
+            color: #666;
             margin-bottom: 15px;
         }
 
@@ -323,30 +380,35 @@
         }
 
         .btn-download {
-            background: rgba(46, 204, 113, 0.8);
+            background: rgba(46, 204, 113, 0.9);
             color: white;
+            border: 2px solid rgba(46, 204, 113, 0.9);
         }
 
         .btn-download:hover {
             background: rgba(46, 204, 113, 1);
+            border-color: rgba(46, 204, 113, 1);
         }
 
         .btn-view {
-            background: rgba(52, 152, 219, 0.8);
+            background: var(--bs-primary);
             color: white;
+            border: 2px solid var(--bs-primary);
         }
 
         .btn-view:hover {
-            background: rgba(52, 152, 219, 1);
+            background: var(--bs-primary-hover);
+            border-color: var(--bs-primary-hover);
         }
 
         /* Empty State */
         .empty-state {
             text-align: center;
             padding: 80px 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .empty-state-icon {
@@ -358,10 +420,11 @@
         .empty-state h3 {
             font-size: 24px;
             margin-bottom: 10px;
+            color: #333;
         }
 
         .empty-state p {
-            opacity: 0.7;
+            color: #666;
             font-size: 16px;
         }
 
@@ -369,11 +432,15 @@
         .loading {
             text-align: center;
             padding: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid white;
+            border: 4px solid rgba(139, 111, 71, 0.2);
+            border-top: 4px solid var(--bs-primary);
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -384,6 +451,20 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: #333;
+        }
+
+        /* Links */
+        .link-primary {
+            color: var(--bs-primary) !important;
+            font-weight: 500;
+        }
+
+        .link-primary:hover {
+            color: var(--bs-primary-hover) !important;
         }
 
         /* Responsive */
@@ -409,199 +490,212 @@
                 min-width: 100%;
             }
         }
+
+        @media (max-width: 576px) {
+            body {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                📚 Repositorio Digital
-            </div>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Buscar por título, autor, género...">
-                <span class="search-icon">🔍</span>
-            </div>
-            <a href="#" class="btn btn-primary">
-                ➕ Subir Libro
-            </a>
-        </div>
-    </div>
+    <!-- Background con imagen -->
+    <div class="bg-image"></div>
 
-    <!-- Stats Bar -->
-    <div class="stats-bar">
-        <div class="stat-card">
-            <div class="stat-icon">📖</div>
-            <div class="stat-info">
-                <h3>1,234</h3>
-                <p>Libros Digitales</p>
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-circle">📚</div>
+                    Repositorio Digital
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Buscar por título, autor, género...">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <a href="#" class="btn btn-primary">
+                    ➕ Subir Libro
+                </a>
             </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-icon">⬇️</div>
-            <div class="stat-info">
-                <h3>12,567</h3>
-                <p>Descargas</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon">👁️</div>
-            <div class="stat-info">
-                <h3>45,890</h3>
-                <p>Visualizaciones</p>
-            </div>
-        </div>
-    </div>
 
-    <!-- Filters -->
-    <div class="filters">
-        <div class="filter-group">
-            <select id="generoFilter">
-                <option value="">Todos los géneros</option>
-                <option value="ficcion">Ficción</option>
-                <option value="no-ficcion">No Ficción</option>
-                <option value="ciencia">Ciencia</option>
-                <option value="tecnologia">Tecnología</option>
-                <option value="historia">Historia</option>
-                <option value="biografia">Biografía</option>
-                <option value="arte">Arte</option>
-            </select>
-
-            <select id="idiomaFilter">
-                <option value="">Todos los idiomas</option>
-                <option value="español">Español</option>
-                <option value="ingles">Inglés</option>
-                <option value="frances">Francés</option>
-                <option value="aleman">Alemán</option>
-            </select>
-
-            <select id="tipoFilter">
-                <option value="">Tipo de documento</option>
-                <option value="libro">Libro</option>
-                <option value="revista">Revista</option>
-                <option value="articulo">Artículo</option>
-                <option value="tesis">Tesis</option>
-            </select>
-
-            <select id="ordenFilter">
-                <option value="recientes">Más recientes</option>
-                <option value="populares">Más populares</option>
-                <option value="descargados">Más descargados</option>
-                <option value="az">A-Z</option>
-                <option value="za">Z-A</option>
-            </select>
-
-            <button class="btn btn-primary" onclick="aplicarFiltros()">Aplicar Filtros</button>
-        </div>
-    </div>
-
-    <!-- Container -->
-    <div class="container">
-        <!-- Libros Destacados -->
-        <h2 class="section-title">🌟 Libros Destacados</h2>
-        <div class="books-grid" id="destacadosGrid">
-            <!-- Libro 1 -->
-            <div class="book-card">
-                <div class="book-badge popular">⭐ Popular</div>
-                <div class="book-cover">
-                    📘
-                </div>
-                <div class="book-info">
-                    <h3 class="book-title">Cien Años de Soledad</h3>
-                    <p class="book-author">Gabriel García Márquez</p>
-                    <div class="book-meta">
-                        <span class="badge">Ficción</span>
-                        <span class="badge">Español</span>
-                    </div>
-                    <div class="book-stats">
-                        <span>👁️ 1,234</span>
-                        <span>⬇️ 567</span>
-                    </div>
-                    <div class="book-actions">
-                        <button class="btn btn-view" onclick="verLibro(1)">Ver</button>
-                        <button class="btn btn-download" onclick="descargarLibro(1)">Descargar</button>
-                    </div>
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-icon">📖</div>
+                <div class="stat-info">
+                    <h3>1,234</h3>
+                    <p>Libros Digitales</p>
                 </div>
             </div>
-
-            <!-- Libro 2 -->
-            <div class="book-card">
-                <div class="book-badge new">🆕 Nuevo</div>
-                <div class="book-cover">
-                    📗
-                </div>
-                <div class="book-info">
-                    <h3 class="book-title">El Principito</h3>
-                    <p class="book-author">Antoine de Saint-Exupéry</p>
-                    <div class="book-meta">
-                        <span class="badge">Infantil</span>
-                        <span class="badge">Español</span>
-                    </div>
-                    <div class="book-stats">
-                        <span>👁️ 892</span>
-                        <span>⬇️ 445</span>
-                    </div>
-                    <div class="book-actions">
-                        <button class="btn btn-view" onclick="verLibro(2)">Ver</button>
-                        <button class="btn btn-download" onclick="descargarLibro(2)">Descargar</button>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-icon">⬇️</div>
+                <div class="stat-info">
+                    <h3>12,567</h3>
+                    <p>Descargas</p>
                 </div>
             </div>
-
-            <!-- Libro 3 -->
-            <div class="book-card">
-                <div class="book-cover">
-                    📕
-                </div>
-                <div class="book-info">
-                    <h3 class="book-title">1984</h3>
-                    <p class="book-author">George Orwell</p>
-                    <div class="book-meta">
-                        <span class="badge">Distopía</span>
-                        <span class="badge">Español</span>
-                    </div>
-                    <div class="book-stats">
-                        <span>👁️ 756</span>
-                        <span>⬇️ 389</span>
-                    </div>
-                    <div class="book-actions">
-                        <button class="btn btn-view" onclick="verLibro(3)">Ver</button>
-                        <button class="btn btn-download" onclick="descargarLibro(3)">Descargar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Libro 4 -->
-            <div class="book-card">
-                <div class="book-cover">
-                    📙
-                </div>
-                <div class="book-info">
-                    <h3 class="book-title">Don Quijote de la Mancha</h3>
-                    <p class="book-author">Miguel de Cervantes</p>
-                    <div class="book-meta">
-                        <span class="badge">Clásico</span>
-                        <span class="badge">Español</span>
-                    </div>
-                    <div class="book-stats">
-                        <span>👁️ 2,145</span>
-                        <span>⬇️ 998</span>
-                    </div>
-                    <div class="book-actions">
-                        <button class="btn btn-view" onclick="verLibro(4)">Ver</button>
-                        <button class="btn btn-download" onclick="descargarLibro(4)">Descargar</button>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-icon">👁️</div>
+                <div class="stat-info">
+                    <h3>45,890</h3>
+                    <p>Visualizaciones</p>
                 </div>
             </div>
         </div>
 
-        <!-- Todos los Libros -->
-        <h2 class="section-title">📚 Catálogo Completo</h2>
-        <div class="books-grid" id="catalogoGrid">
-            <!-- Aquí se cargarán más libros dinámicamente -->
-            <div class="loading">
-                <div class="spinner"></div>
-                <p style="margin-top: 20px;">Cargando más libros...</p>
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-group">
+                <select id="generoFilter">
+                    <option value="">Todos los géneros</option>
+                    <option value="ficcion">Ficción</option>
+                    <option value="no-ficcion">No Ficción</option>
+                    <option value="ciencia">Ciencia</option>
+                    <option value="tecnologia">Tecnología</option>
+                    <option value="historia">Historia</option>
+                    <option value="biografia">Biografía</option>
+                    <option value="arte">Arte</option>
+                </select>
+
+                <select id="idiomaFilter">
+                    <option value="">Todos los idiomas</option>
+                    <option value="español">Español</option>
+                    <option value="ingles">Inglés</option>
+                    <option value="frances">Francés</option>
+                    <option value="aleman">Alemán</option>
+                </select>
+
+                <select id="tipoFilter">
+                    <option value="">Tipo de documento</option>
+                    <option value="libro">Libro</option>
+                    <option value="revista">Revista</option>
+                    <option value="articulo">Artículo</option>
+                    <option value="tesis">Tesis</option>
+                </select>
+
+                <select id="ordenFilter">
+                    <option value="recientes">Más recientes</option>
+                    <option value="populares">Más populares</option>
+                    <option value="descargados">Más descargados</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                </select>
+
+                <button class="btn btn-primary" onclick="aplicarFiltros()">Aplicar Filtros</button>
+            </div>
+        </div>
+
+        <!-- Container -->
+        <div class="container">
+            <!-- Libros Destacados -->
+            <h2 class="section-title">🌟 Libros Destacados</h2>
+            <div class="books-grid" id="destacadosGrid">
+                <!-- Libro 1 -->
+                <div class="book-card">
+                    <div class="book-badge popular">⭐ Popular</div>
+                    <div class="book-cover">
+                        📘
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Cien Años de Soledad</h3>
+                        <p class="book-author">Gabriel García Márquez</p>
+                        <div class="book-meta">
+                            <span class="badge">Ficción</span>
+                            <span class="badge">Español</span>
+                        </div>
+                        <div class="book-stats">
+                            <span>👁️ 1,234</span>
+                            <span>⬇️ 567</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-view" onclick="verLibro(1)">Ver</button>
+                            <button class="btn btn-download" onclick="descargarLibro(1)">Descargar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Libro 2 -->
+                <div class="book-card">
+                    <div class="book-badge new">🆕 Nuevo</div>
+                    <div class="book-cover">
+                        📗
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">El Principito</h3>
+                        <p class="book-author">Antoine de Saint-Exupéry</p>
+                        <div class="book-meta">
+                            <span class="badge">Infantil</span>
+                            <span class="badge">Español</span>
+                        </div>
+                        <div class="book-stats">
+                            <span>👁️ 892</span>
+                            <span>⬇️ 445</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-view" onclick="verLibro(2)">Ver</button>
+                            <button class="btn btn-download" onclick="descargarLibro(2)">Descargar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Libro 3 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        📕
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">1984</h3>
+                        <p class="book-author">George Orwell</p>
+                        <div class="book-meta">
+                            <span class="badge">Distopía</span>
+                            <span class="badge">Español</span>
+                        </div>
+                        <div class="book-stats">
+                            <span>👁️ 756</span>
+                            <span>⬇️ 389</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-view" onclick="verLibro(3)">Ver</button>
+                            <button class="btn btn-download" onclick="descargarLibro(3)">Descargar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Libro 4 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        📙
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Don Quijote de la Mancha</h3>
+                        <p class="book-author">Miguel de Cervantes</p>
+                        <div class="book-meta">
+                            <span class="badge">Clásico</span>
+                            <span class="badge">Español</span>
+                        </div>
+                        <div class="book-stats">
+                            <span>👁️ 2,145</span>
+                            <span>⬇️ 998</span>
+                        </div>
+                        <div class="book-actions">
+                            <button class="btn btn-view" onclick="verLibro(4)">Ver</button>
+                            <button class="btn btn-download" onclick="descargarLibro(4)">Descargar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Todos los Libros -->
+            <h2 class="section-title">📚 Catálogo Completo</h2>
+            <div class="books-grid" id="catalogoGrid">
+                <!-- Aquí se cargarán más libros dinámicamente -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 20px;">Cargando más libros...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -633,7 +727,6 @@
 
             console.log('Filtros aplicados:', { genero, idioma, tipo, orden });
             
-            // Aquí harías una petición AJAX para filtrar los libros
             alert('Filtros aplicados correctamente');
         }
 
@@ -645,8 +738,6 @@
         // Descargar libro
         function descargarLibro(id) {
             alert(`Descargando libro con ID: ${id}`);
-            // Aquí implementarías la lógica de descarga real
-            // window.location.href = `/repositorio/${id}/download`;
         }
 
         // Simular carga de más libros
