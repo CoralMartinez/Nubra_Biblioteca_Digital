@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-glassmorphism')
 
 @section('content')
 <div class="min-vh-100 bg-light">

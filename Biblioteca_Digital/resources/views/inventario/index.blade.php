@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('layouts.app-glassmorphism')
 @section('title', 'Inventario Físico')
 
 @section('content')
