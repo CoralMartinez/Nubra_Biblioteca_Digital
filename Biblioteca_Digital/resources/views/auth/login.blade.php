@@ -3,97 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Biblioteca Digital</title>
+    <title>Iniciar Sesión - Nubra Digital</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="{{ asset('css/auth-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/glassmorphism-auth.css') }}">
 </head>
 <body>
-    <div class="bg-image login-bg"></div>
-    
-    <div class="card auth-card" style="width: 100%; max-width: 450px;">
-        <div class="card-body p-4 p-sm-5">
-            <!-- Logo -->
-            <div class="logo-circle">
-                <i class="bi bi-book fs-2 text-white"></i>
-            </div>
-            
-            <!-- Título -->
-            <h2 class="text-center fw-bold mb-2">Iniciar Sesión</h2>
-            <p class="text-center text-muted mb-4">Ingresa tus credenciales para acceder a la biblioteca</p>
-            
-            <!-- Mensajes -->
-            @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            @endif
-            
-            @if($errors->has('login_error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle me-2"></i>{{ $errors->first('login_error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            @endif
-            
-            <!-- Formulario de LOGIN -->
-            <form action="{{ url('/login') }}" method="POST">
-                @csrf
-                
-                <!-- Email -->
-                <div class="mb-3">
-                    <label for="email" class="form-label">Correo Electrónico</label>
-                    <input 
-                        type="email" 
-                        class="form-control @error('email') is-invalid @enderror" 
-                        id="email" 
-                        name="email" 
-                        value="{{ old('email') }}" 
-                        placeholder="tu@email.com" 
-                        required 
-                        autofocus
-                    >
-                    @error('email')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                
-                <!-- Contraseña -->
-                <div class="mb-4">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input 
-                        type="password" 
-                        class="form-control @error('password') is-invalid @enderror" 
-                        id="password" 
-                        name="password" 
-                        placeholder="••••••••" 
-                        required
-                    >
-                    @error('password')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                
-                <!-- Botón submit -->
-                <button type="submit" class="btn btn-primary w-100">
-                    Iniciar Sesión
-                </button>
-            </form>
-            
-            <!-- Link a registro -->
-            <p class="text-center text-muted mb-0 mt-4">
-                ¿No tienes cuenta? 
-                <a href="{{ route('register') }}" class="link-primary text-decoration-none">Regístrate</a>
-            </p>
+    <!-- Background animado -->
+    <div class="animated-background">
+        <div class="parallax-layer layer-1"></div>
+        <div class="parallax-layer layer-2"></div>
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
         </div>
     </div>
-    
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Contenedor principal -->
+    <div class="auth-container">
+        <div class="auth-layout">
+            <!-- Sección de branding (izquierda) -->
+            <div class="branding-section">
+                <h1 class="brand-title">Nubra Digital</h1>
+                <div class="brand-welcome">Bienvenido de vuelta</div>
+                <p class="brand-description">
+                    Accede a nuestra colección digital de libros y gestiona el inventario de recursos físicos. 
+                    Un mundo de conocimiento te espera.
+                </p>
+                
+                <!-- Redes sociales -->
+                <div class="social-links">
+                    <a href="#" class="social-icon" title="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="Twitter">
+                        <i class="bi bi-twitter-x"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sección de formulario (derecha) -->
+            <div class="form-section">
+                <div class="form-header">
+                    <h2 class="form-title">Iniciar Sesión</h2>
+                    <p class="form-subtitle">Ingresa tus credenciales para acceder</p>
+                </div>
+
+                <div class="glass-form">
+                    <!-- Mensajes de éxito -->
+                    @if(session('success'))
+                    <div class="glass-alert success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>{{ session('success') }}</span>
+                    </div>
+                    @endif
+
+                    <!-- Mensajes de error -->
+                    @if($errors->has('login_error'))
+                    <div class="glass-alert error">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <span>{{ $errors->first('login_error') }}</span>
+                    </div>
+                    @endif
+
+                    <!-- Formulario -->
+                    <form action="{{ url('/login') }}" method="POST">
+                        @csrf
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input 
+                                type="email" 
+                                class="glass-input" 
+                                id="email" 
+                                name="email" 
+                                value="{{ old('email') }}" 
+                                placeholder="tu@email.com" 
+                                required 
+                                autofocus
+                            >
+                            @error('email')
+                            <small style="color: #f56565; font-size: 0.85rem; margin-top: 0.25rem; display: block;">
+                                {{ $message }}
+                            </small>
+                            @enderror
+                        </div>
+
+                        <!-- Contraseña -->
+                        <div class="form-group">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input 
+                                type="password" 
+                                class="glass-input" 
+                                id="password" 
+                                name="password" 
+                                placeholder="••••••••" 
+                                required
+                            >
+                            @error('password')
+                            <small style="color: #f56565; font-size: 0.85rem; margin-top: 0.25rem; display: block;">
+                                {{ $message }}
+                            </small>
+                            @enderror
+                        </div>
+
+                        <!-- Botón submit -->
+                        <button type="submit" class="glass-button">
+                            Iniciar Sesión
+                        </button>
+                    </form>
+
+                    <!-- Link a registro -->
+                    <div class="form-link">
+                        <p class="form-link-text">
+                            ¿No tienes cuenta? 
+                            <a href="{{ route('register') }}">Regístrate</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

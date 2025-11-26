@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-glassmorphism')
 
 @section('title', 'Agregar Libro')
 

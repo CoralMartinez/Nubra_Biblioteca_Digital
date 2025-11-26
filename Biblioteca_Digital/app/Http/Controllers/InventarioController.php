@@ -12,7 +12,7 @@ class InventarioController extends Controller
      */
     public function index()
     {
-        $libros = LibroFisico::orderBy('created_at', 'desc')->get();
+        $libros = LibroFisico::orderBy('created_at', 'desc')->paginate(10);
         return view('inventario.index', compact('libros'));
     }
 
