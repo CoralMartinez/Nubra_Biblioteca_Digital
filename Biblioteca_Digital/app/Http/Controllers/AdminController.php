@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\LibroFisico;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash; // Necesario para contraseñas
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -20,15 +20,12 @@ class AdminController extends Controller
             'nuevos_usuarios'  => Usuario::whereMonth('created_at', now()->month)->count()
         ];
 
-        // Usuarios recientes
-        $usuariosRecientes = Usuario::orderBy('created_at', 'desc')->take(5)->get();
+        // CAMBIO AQUÍ: Usamos paginate(5) en lugar de take(5)->get()
+        $usuariosRecientes = Usuario::orderBy('created_at', 'desc')->paginate(5);
 
         return view('admin.dashboard', compact('stats', 'usuariosRecientes'));
     }
 
-    // --- NUEVAS FUNCIONES ---
-
-    // 1. Guardar nuevo usuario
     public function store(Request $request)
     {
         $request->validate([
@@ -54,18 +51,16 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Usuario creado correctamente.');
     }
 
-    // 2. Actualizar usuario
     public function update(Request $request, $id)
     {
         $usuario = Usuario::findOrFail($id);
 
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'email' => 'required|email|unique:usuarios,correo,'.$id, // Ignorar email propio
+            'email' => 'required|email|unique:usuarios,correo,'.$id,
             'rol' => 'required|in:admin,usuario',
         ]);
 
-        // Datos básicos
         $data = [
             'nombre' => $request->nombre,
             'apellido_paterno' => $request->apellido_paterno,
@@ -75,7 +70,6 @@ class AdminController extends Controller
             'fecha_nacimiento' => $request->fecha_nacimiento,
         ];
 
-        // Solo actualizar contraseña si se escribió algo
         if ($request->filled('password')) {
             $data['contrasena'] = Hash::make($request->password);
         }
@@ -85,10 +79,8 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Usuario actualizado correctamente.');
     }
 
-    // 3. Eliminar usuario
     public function destroy($id)
     {
-        // Evitar auto-eliminación
         if (auth()->user()->id == $id) {
             return redirect()->back()->with('error', 'No puedes eliminar tu propia cuenta.');
         }

@@ -9,32 +9,28 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Middleware\AdminMiddleware;
 
-// =========================================================================
-// ZONA PÚBLICA (GUEST)
-// Rutas accesibles para usuarios NO logueados
-// =========================================================================
+// ZONA PÚBLICA 
+// Rutas accesibles para usuarios no logueados
 
 Route::middleware('guest')->group(function () {
     
-    // 1. Redirección raíz
+    //Redirección raíz
     Route::get('/', function () { return view('auth.login'); });
 
-    // 2. Login Usuario General
+    //Login Usuario General
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
-    // 3. Registro Usuario
+    //Registro Usuario
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 
-    // 4. Login Administrador
+    //Login Administrador
     Route::get('/admin/login', [AuthController::class, 'showAdminLoginForm'])->name('admin.login');
 });
 
-// =========================================================================
 // ZONA PROTEGIDA (AUTH)
 // Rutas accesibles SOLO para usuarios logueados (Cualquier rol)
-// =========================================================================
 
 Route::middleware('auth')->group(function () {
 
@@ -69,10 +65,8 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-// =========================================================================
 // ZONA ADMINISTRADOR (Middleware 'AdminMiddleware')
 // Solo entran usuarios con rol 'admin'
-// =========================================================================
 Route::middleware(AdminMiddleware::class)->prefix('admin')->name('admin.')->group(function () {
     
     // Dashboard del Administrador

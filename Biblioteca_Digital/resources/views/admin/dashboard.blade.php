@@ -59,16 +59,16 @@
     </div>
 
     <!-- Sección Inferior: Tabla de Usuarios Recientes -->
-    <div class="glass-card" style="padding: 0;">
+    <div class="glass-card" style="padding: 0; padding-bottom: 1rem;">
         <div style="padding: 1.5rem 2rem; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
-            <h3 class="card-title" style="font-size: 1.25rem; margin: 0;">Usuarios Registrados Recientemente</h3>
+            <h3 class="card-title" style="font-size: 1.25rem; margin: 0;">Usuarios Registrados</h3>
             <!-- Botón Nuevo -->
             <button onclick="openUserModal()" class="glass-btn glass-btn-sm">
                 <i class="bi bi-person-plus"></i> Nuevo Usuario
             </button>
         </div>
         
-        <div class="glass-table-container" style="border: none; border-radius: 0 0 20px 20px;">
+        <div class="glass-table-container" style="border: none; border-radius: 0;">
             <table class="glass-table">
                 <thead>
                     <tr>
@@ -104,7 +104,6 @@
                         <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y') }}</td>
                         <td>
                             <div class="table-actions">
-                                <!-- CORRECCIÓN: Cambiado editUser() por openUserModal() -->
                                 <button onclick="openUserModal({{ json_encode($user) }})" class="table-btn" title="Editar">
                                     <i class="bi bi-pencil"></i>
                                 </button>
@@ -117,6 +116,11 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <!-- Paginación -->
+        <div style="padding: 1rem 2rem; display: flex; justify-content: center;">
+            {{ $usuariosRecientes->links() }}
         </div>
     </div>
 </div>
@@ -161,7 +165,6 @@
 
             <div class="form-group">
                 <label class="form-label">Correo Electrónico</label>
-                <!-- CORRECCIÓN: Cambiado name="correo" por name="email" para coincidir con el controlador -->
                 <input type="email" name="email" id="email" class="glass-input" required>
             </div>
 
@@ -228,47 +231,34 @@
         const passHint = document.getElementById('passHint');
         const methodSpoof = document.getElementById('methodSpoof');
 
-        // Resetear formulario
         form.reset();
         methodSpoof.innerHTML = ''; 
 
         if (user) {
-            // MODO EDICIÓN
             title.textContent = 'Editar Usuario';
             form.action = `${routes.update}/${user.id}`;
             passHint.textContent = '(Dejar en blanco para mantener la actual)';
-            
-            // Inyectar método PUT
             methodSpoof.innerHTML = '<input type="hidden" name="_method" value="PUT">';
 
-            // Llenar campos
             document.getElementById('nombre').value = user.nombre;
             document.getElementById('apellido_paterno').value = user.apellido_paterno;
             document.getElementById('apellido_materno').value = user.apellido_materno || '';
-            
-            // CORRECCIÓN: Ajustado ID del campo email
             document.getElementById('email').value = user.correo; 
-            
             document.getElementById('rol').value = user.rol;
             document.getElementById('fecha_nacimiento').value = user.fecha_nacimiento;
             document.getElementById('password').required = false;
-
         } else {
-            // MODO CREACIÓN
             title.textContent = 'Nuevo Usuario';
             form.action = routes.store;
             passHint.textContent = '';
-            
             document.getElementById('password').required = true;
         }
-
         modal.classList.add('active');
     }
 
     function deleteUser(id) {
         const modal = document.getElementById('deleteModal');
         const form = document.getElementById('deleteForm');
-        
         form.action = `${routes.delete}/${id}`;
         modal.classList.add('active');
     }
@@ -277,4 +267,61 @@
         document.getElementById(modalId).classList.remove('active');
     }
 </script>
+
+<!-- Estilos para la paginación de Laravel en Glassmorphism -->
+<style>
+    /* Contenedor de la navegación */
+    nav[role="navigation"] {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    /* Ocultar información de "Mostrando X de Y" en pantallas muy pequeñas si molesta */
+    nav[role="navigation"] p {
+        margin-bottom: 0;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    /* Links de paginación */
+    nav[role="navigation"] a, 
+    nav[role="navigation"] span[aria-current="page"] span {
+        background: transparent !important;
+        border: 1px solid var(--glass-border) !important;
+        color: var(--text-light) !important;
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        margin: 0 2px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    /* Link activo */
+    nav[role="navigation"] span[aria-current="page"] span {
+        background: var(--primary-brown) !important;
+        border-color: var(--primary-brown) !important;
+        color: white !important;
+    }
+
+    /* Hover en links */
+    nav[role="navigation"] a:hover {
+        background: rgba(255,255,255,0.1) !important;
+        border-color: var(--text-light) !important;
+    }
+
+    /* Botones deshabilitados (Anterior/Siguiente cuando no hay más) */
+    nav[role="navigation"] span[aria-disabled="true"] span {
+        opacity: 0.5;
+        cursor: not-allowed;
+        border-color: transparent !important;
+    }
+    
+    /* Iconos SVG de Tailwind (flechas) */
+    nav[role="navigation"] svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+    }
+</style>
 @endsection
