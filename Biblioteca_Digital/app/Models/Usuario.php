@@ -89,4 +89,10 @@ class Usuario extends Authenticatable
     {
         return $this->correo;
     }
+
+    /*Modulo del admin */
+    public function isAdmin()
+    {
+    return $this->role === 'admin';
+    }
 }

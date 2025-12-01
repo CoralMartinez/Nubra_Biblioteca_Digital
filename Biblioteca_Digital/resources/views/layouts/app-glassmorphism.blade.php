@@ -86,7 +86,7 @@
                         <small style="color: var(--text-muted); font-size: 0.8rem;">{{ Auth::user()->correo }}</small>
                     </div>
                     <div class="dropdown-divider"></div>
-                    <a href="{{ route('perfil') }}" class="dropdown-item">
+                    <a href="{{ route('perfil.edit') }}" class="dropdown-item">
                         <i class="bi bi-person"></i>
                         <span>Mi Perfil</span>
                     </a>
