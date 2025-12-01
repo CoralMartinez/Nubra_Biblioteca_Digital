@@ -93,3 +93,18 @@ def delete_libro(libro_id: int, db: Session = Depends(get_db)):
     db.delete(libro)
     db.commit()
     return {"message": "Libro eliminado correctamente"}
+
+# Actualizar un libro existente
+@app.put("/libros/{libro_id}", response_model=LibroFisico)
+def update_libro(libro_id: int, libro: LibroFisicoBase, db: Session = Depends(get_db)):
+    db_libro = db.query(LibroFisicoDB).filter(LibroFisicoDB.id == libro_id).first()
+    if db_libro is None:
+        raise HTTPException(status_code=404, detail="Libro no encontrado")
+    
+    # Actualizar campos
+    for key, value in libro.dict().items():
+        setattr(db_libro, key, value)
+
+    db.commit()
+    db.refresh(db_libro)
+    return db_libro
