@@ -1,111 +1,146 @@
 @extends('layouts.app-glassmorphism')
 
-@section('title', 'Editar Libro')
+@section('title', 'Editar Libro - Nubra Digital')
 
 @section('content')
-<div class="container py-4">
-    <div class="mb-4">
-        <h1 class="h3 fw-bold mb-1">Editar Libro</h1>
-        <p class="text-muted mb-0">Modifica la información del libro</p>
+<div class="page-transition-enter">
+    
+    <div style="margin-bottom: 2rem;">
+        <a href="{{ route('inventario.index') }}" style="color: var(--text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <i class="bi bi-arrow-left"></i> Volver al inventario
+        </a>
+        <h1 style="font-size: 2.5rem; font-weight: 700; color: var(--text-light);">Editar Libro #{{ $libro->id }}</h1>
+        <p style="color: var(--text-muted);">Editando información vía FastAPI (PUT)</p>
     </div>
 
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-body">
-                    <form action="{{ route('inventario.update', $libro->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+    <!-- Loader inicial -->
+    <div id="loadingData" style="text-align: center; padding: 4rem;">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p style="margin-top: 1rem; color: var(--text-muted);">Recuperando datos del libro...</p>
+    </div>
 
-                        <div class="mb-3">
-                            <label for="titulo" class="form-label">Título</label>
-                            <input 
-                                type="text" 
-                                class="form-control @error('titulo') is-invalid @enderror" 
-                                id="titulo" 
-                                name="titulo" 
-                                value="{{ old('titulo', $libro->titulo) }}"
-                                required
-                            >
-                            @error('titulo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="autor" class="form-label">Autor</label>
-                            <input 
-                                type="text" 
-                                class="form-control @error('autor') is-invalid @enderror" 
-                                id="autor" 
-                                name="autor" 
-                                value="{{ old('autor', $libro->autor) }}"
-                                required
-                            >
-                            @error('autor')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="año" class="form-label">Año</label>
-                            <input 
-                                type="number" 
-                                class="form-control @error('año') is-invalid @enderror" 
-                                id="año" 
-                                name="año" 
-                                value="{{ old('año', $libro->año) }}"
-                                min="1000"
-                                max="{{ date('Y') + 1 }}"
-                                required
-                            >
-                            @error('año')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="clasificacion" class="form-label">Clasificación</label>
-                            <input 
-                                type="text" 
-                                class="form-control @error('clasificacion') is-invalid @enderror" 
-                                id="clasificacion" 
-                                name="clasificacion" 
-                                value="{{ old('clasificacion', $libro->clasificacion) }}"
-                                required
-                            >
-                            @error('clasificacion')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="ubicacion" class="form-label">Ubicación</label>
-                            <input 
-                                type="text" 
-                                class="form-control @error('ubicacion') is-invalid @enderror" 
-                                id="ubicacion" 
-                                name="ubicacion" 
-                                value="{{ old('ubicacion', $libro->ubicacion) }}"
-                                required
-                            >
-                            @error('ubicacion')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-circle me-2"></i>Guardar Cambios
-                            </button>
-                            <a href="{{ route('inventario.index') }}" class="btn btn-outline-secondary">
-                                Cancelar
-                            </a>
-                        </div>
-                    </form>
+    <!-- Formulario (Oculto al inicio) -->
+    <div id="formContainer" class="glass-card" style="max-width: 800px; margin: 0 auto; display: none;">
+        <form id="editLibroForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <label class="form-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-light);">Título del Libro</label>
+                    <input type="text" id="titulo" class="glass-input" required style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-light);">Autor</label>
+                    <input type="text" id="autor" class="glass-input" required style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
                 </div>
             </div>
-        </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="form-group">
+                    <label class="form-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-light);">Año</label>
+                    <input type="number" id="año" class="glass-input" required style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-light);">Clasificación</label>
+                    <select id="clasificacion" class="glass-input" style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
+                        <option value="Novela" style="color: black;">Novela</option>
+                        <option value="Ciencia" style="color: black;">Ciencia</option>
+                        <option value="Historia" style="color: black;">Historia</option>
+                        <option value="Infantil" style="color: black;">Infantil</option>
+                        <option value="Biografía" style="color: black;">Biografía</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" style="display: block; margin-bottom: 0.5rem; color: var(--text-light);">Ubicación</label>
+                    <input type="text" id="ubicacion" class="glass-input" required style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                <a href="{{ route('inventario.index') }}" class="glass-btn glass-btn-outline" style="text-decoration: none;">Cancelar</a>
+                <button type="submit" class="glass-btn" id="btnGuardar">
+                    <span id="btnText">Actualizar Libro</span>
+                    <span id="btnSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                </button>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+    // ID del libro inyectado desde el controlador de Laravel
+    const LIBRO_ID = "{{ $libro->id }}"; 
+    const API_URL = `http://127.0.0.1:8001/libros/${LIBRO_ID}`;
+
+    // 1. Cargar datos al iniciar
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error('Error al cargar');
+            
+            const libro = await response.json();
+            
+            // Llenar campos
+            document.getElementById('titulo').value = libro.titulo;
+            document.getElementById('autor').value = libro.autor;
+            document.getElementById('año').value = libro.año;
+            document.getElementById('clasificacion').value = libro.clasificacion;
+            document.getElementById('ubicacion').value = libro.ubicacion;
+
+            // Mostrar formulario
+            document.getElementById('loadingData').style.display = 'none';
+            document.getElementById('formContainer').style.display = 'block';
+
+        } catch (error) {
+            console.error(error);
+            alert('No se pudo cargar la información del libro desde FastAPI');
+            window.location.href = "{{ route('inventario.index') }}";
+        }
+    });
+
+    // 2. Manejar actualización (PUT)
+    document.getElementById('editLibroForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('btnGuardar');
+        const btnText = document.getElementById('btnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        
+        btn.disabled = true;
+        btnText.style.display = 'none';
+        btnSpinner.style.display = 'inline-block';
+
+        const data = {
+            titulo: document.getElementById('titulo').value,
+            autor: document.getElementById('autor').value,
+            año: parseInt(document.getElementById('año').value),
+            clasificacion: document.getElementById('clasificacion').value,
+            ubicacion: document.getElementById('ubicacion').value
+        };
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'PUT', // <--- Método clave para editar
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) throw new Error('Error en actualización');
+
+            alert('¡Libro actualizado correctamente!');
+            window.location.href = "{{ route('inventario.index') }}";
+
+        } catch (error) {
+            console.error(error);
+            alert('Error al actualizar.');
+            btn.disabled = false;
+            btnText.style.display = 'inline';
+            btnSpinner.style.display = 'none';
+        }
+    });
+</script>
 @endsection
