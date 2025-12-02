@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     // Perfil de Usuario
     Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
     Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.update');
+    Route::get('/perfil/editar', [PerfilController::class, 'edit'])->name('perfil.edit');
 
     // --- Módulo Repositorio ---
     Route::prefix('repositorio')->name('repositorio.')->group(function () {
