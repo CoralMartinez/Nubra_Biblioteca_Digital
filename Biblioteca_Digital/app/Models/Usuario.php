@@ -8,6 +8,8 @@ use Illuminate\Notifications\Notifiable;
 class Usuario extends Authenticatable
 {
     use Notifiable;
+    public $timestamps = false; //  Desactiva created_at y updated_at
+
 
     protected $table = 'usuarios';
 
@@ -21,6 +23,7 @@ class Usuario extends Authenticatable
         'correo',
         'contrasena',
         'fecha_nacimiento',
+        'rol',
         'activo',
         'ultimo_acceso',
     ];
@@ -85,5 +88,11 @@ class Usuario extends Authenticatable
     public function getEmailAttribute()
     {
         return $this->correo;
+    }
+
+    /*Modulo del admin */
+    public function isAdmin()
+    {
+    return $this->role === 'admin';
     }
 }

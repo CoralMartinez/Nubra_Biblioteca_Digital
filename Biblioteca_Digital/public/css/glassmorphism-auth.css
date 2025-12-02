@@ -1,0 +1,467 @@
+/* Variables de color */
+:root {
+    --primary-brown: #8b6f47;
+    --primary-brown-light: rgba(139, 111, 71, 0.8);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-light: rgba(255, 255, 255, 0.9);
+    --text-dark: rgba(0, 0, 0, 0.8);
+}
+
+/* Reset y body */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Contenedor principal */
+.auth-container {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Background animado con parallax */
+.animated-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2416 50%, #1a1a1a 100%);
+}
+
+/* Capas de parallax */
+.parallax-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.layer-1 {
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(139, 111, 71, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 111, 71, 0.08) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
+}
+
+.layer-2 {
+    background-image: 
+        radial-gradient(circle at 60% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+    animation: float 15s ease-in-out infinite reverse;
+}
+
+/* Partículas flotantes */
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: rise 15s infinite ease-in;
+}
+
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+.particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+.particle:nth-child(4) { left: 40%; animation-delay: 1s; }
+.particle:nth-child(5) { left: 50%; animation-delay: 3s; }
+.particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+.particle:nth-child(7) { left: 70%; animation-delay: 2.5s; }
+.particle:nth-child(8) { left: 80%; animation-delay: 4.5s; }
+.particle:nth-child(9) { left: 90%; animation-delay: 1.5s; }
+
+/* Animaciones */
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-20px) translateX(10px); }
+}
+
+@keyframes rise {
+    0% {
+        bottom: -10%;
+        opacity: 0;
+        transform: translateX(0);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        bottom: 110%;
+        opacity: 0;
+        transform: translateX(50px);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Layout de dos columnas */
+.auth-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1400px;
+    width: 90%;
+    padding: 2rem;
+    animation: slideInRight 0.8s ease-out;
+}
+
+.auth-layout.reverse {
+    animation: slideInLeft 0.8s ease-out;
+}
+
+/* Sección de branding */
+.branding-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    color: var(--text-light);
+}
+
+.brand-title {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin: 0;
+    background: linear-gradient(135deg, #ffffff 0%, var(--primary-brown) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.brand-welcome {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    width: fit-content;
+}
+
+.brand-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 500px;
+}
+
+/* Redes sociales */
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.social-icon:hover::before {
+    left: 100%;
+}
+
+.social-icon:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(139, 111, 71, 0.3);
+}
+
+/* Sección de formulario */
+.form-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Glassmorphism form container */
+.glass-form {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.glass-input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.glass-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary-brown);
+    box-shadow: 0 0 20px rgba(139, 111, 71, 0.2);
+}
+
+/* Botón glassmorphism con efecto shimmer */
+.glass-button {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--primary-brown-light) 0%, var(--primary-brown) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--primary-brown);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(139, 111, 71, 0.3);
+}
+
+.glass-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: shimmer 3s infinite;
+}
+
+.glass-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 111, 71, 0.5);
+    background: linear-gradient(135deg, var(--primary-brown) 0%, #75614a 100%);
+}
+
+.glass-button:active {
+    transform: translateY(0);
+}
+
+/* Link de registro/login */
+.form-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+}
+
+.form-link-text {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.form-link a {
+    color: var(--primary-brown);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.form-link a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 10px var(--primary-brown);
+}
+
+/* Alertas con glassmorphism */
+.glass-alert {
+    padding: 1rem 1.25rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.glass-alert.success {
+    background: rgba(72, 187, 120, 0.1);
+    border-color: rgba(72, 187, 120, 0.3);
+    color: #48bb78;
+}
+
+.glass-alert.error {
+    background: rgba(245, 101, 101, 0.1);
+    border-color: rgba(245, 101, 101, 0.3);
+    color: #f56565;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .auth-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 1rem;
+    }
+
+    .branding-section {
+        text-align: center;
+        align-items: center;
+    }
+
+    .brand-title {
+        font-size: 3rem;
+    }
+
+    .brand-welcome,
+    .brand-description {
+        display: none;
+    }
+
+    .social-links {
+        justify-content: center;
+        order: 3;
+        margin-top: 2rem;
+    }
+
+    .form-section {
+        order: 2;
+    }
+
+    .glass-form {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .brand-title {
+        font-size: 2rem;
+    }
+
+    .form-title {
+        font-size: 1.8rem;
+    }
+
+    .glass-form {
+        padding: 1.5rem;
+    }
+
+    .social-icon {
+        width: 45px;
+        height: 45px;
+    }
+}

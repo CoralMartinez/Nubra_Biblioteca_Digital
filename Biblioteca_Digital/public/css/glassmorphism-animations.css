@@ -1,0 +1,460 @@
+/* ============================================
+   ANIMACIONES Y TRANSICIONES
+   ============================================ */
+
+/* Shimmer effect para botones */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Float animation para partículas */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-20px) translateX(10px);
+    }
+}
+
+/* Rise animation para partículas */
+@keyframes rise {
+    0% {
+        bottom: -10%;
+        opacity: 0;
+        transform: translateX(0);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        bottom: 110%;
+        opacity: 0;
+        transform: translateX(50px);
+    }
+}
+
+/* Slide Up para cards */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide In Right (para transiciones de página) */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide In Left (para transiciones de página) */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide Out Right */
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* Slide Out Left */
+@keyframes slideOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
+
+/* Fade In */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Fade Out */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Pulse para botón flotante */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(139, 111, 71, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(139, 111, 71, 0);
+    }
+}
+
+/* Spin para loading */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Loading spinner personalizado - Círculos orbitales */
+@keyframes orbit1 {
+    0%, 100% {
+        transform: rotate(0deg) translateX(40px) rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg) translateX(40px) rotate(-180deg);
+    }
+}
+
+@keyframes orbit2 {
+    0%, 100% {
+        transform: rotate(120deg) translateX(40px) rotate(-120deg);
+    }
+    50% {
+        transform: rotate(300deg) translateX(40px) rotate(-300deg);
+    }
+}
+
+@keyframes orbit3 {
+    0%, 100% {
+        transform: rotate(240deg) translateX(40px) rotate(-240deg);
+    }
+    50% {
+        transform: rotate(420deg) translateX(40px) rotate(-420deg);
+    }
+}
+
+/* Glow pulse */
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(139, 111, 71, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(139, 111, 71, 0.8);
+    }
+}
+
+/* ============================================
+   CLASES DE ANIMACIÓN APLICABLES
+   ============================================ */
+
+/* Transiciones de página */
+.page-transition-enter {
+    animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-transition-enter-reverse {
+    animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-transition-exit {
+    animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-transition-exit-reverse {
+    animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fade para móvil */
+@media (max-width: 768px) {
+    .page-transition-enter,
+    .page-transition-enter-reverse {
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .page-transition-exit,
+    .page-transition-exit-reverse {
+        animation: fadeOut 0.3s ease;
+    }
+}
+
+/* Cards con slide up */
+.card-animate {
+    animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-animate:nth-child(1) { animation-delay: 0.1s; }
+.card-animate:nth-child(2) { animation-delay: 0.2s; }
+.card-animate:nth-child(3) { animation-delay: 0.3s; }
+.card-animate:nth-child(4) { animation-delay: 0.4s; }
+.card-animate:nth-child(5) { animation-delay: 0.5s; }
+.card-animate:nth-child(6) { animation-delay: 0.6s; }
+
+/* ============================================
+   LOADING SPINNERS PERSONALIZADOS
+   ============================================ */
+
+/* Spinner 1: Círculos orbitales glassmorphism */
+.glass-spinner-orbital {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.glass-spinner-orbital::before,
+.glass-spinner-orbital::after,
+.glass-spinner-orbital .spinner-dot {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, var(--primary-brown-light) 0%, var(--primary-brown) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(139, 111, 71, 0.4);
+}
+
+.glass-spinner-orbital::before {
+    animation: orbit1 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.glass-spinner-orbital::after {
+    animation: orbit2 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.glass-spinner-orbital .spinner-dot {
+    animation: orbit3 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Spinner 2: Anillo glassmorphism */
+.glass-spinner-ring {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--glass-bg);
+    border-top-color: var(--primary-brown);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(139, 111, 71, 0.3);
+}
+
+/* Spinner 3: Pulso glassmorphism */
+.glass-spinner-pulse {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.glass-spinner-pulse::before,
+.glass-spinner-pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--primary-brown);
+    border-radius: 50%;
+    animation: glowPulse 1.5s ease-in-out infinite;
+}
+
+.glass-spinner-pulse::after {
+    animation-delay: 0.75s;
+}
+
+/* Spinner 4: Libro girando (temático) */
+.glass-spinner-book {
+    width: 50px;
+    height: 60px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: spin 2s ease-in-out infinite;
+}
+
+.glass-spinner-book::before {
+    content: '📚';
+    font-size: 3rem;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 4px 15px rgba(139, 111, 71, 0.4));
+}
+
+/* Contenedor de loading centrado */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.loading-text {
+    color: var(--text-light);
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+/* ============================================
+   BOTÓN FLOTANTE CON PULSO
+   ============================================ */
+.glass-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-brown-light) 0%, var(--primary-brown) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--primary-brown);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+    box-shadow: 0 4px 20px rgba(139, 111, 71, 0.4);
+}
+
+.glass-fab:hover {
+    transform: scale(1.1);
+    animation: none;
+    box-shadow: 0 8px 30px rgba(139, 111, 71, 0.6);
+}
+
+/* ============================================
+   BADGES Y PILLS
+   ============================================ */
+.glass-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+}
+
+.glass-badge:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.glass-badge.primary {
+    background: linear-gradient(135deg, var(--primary-brown-light) 0%, var(--primary-brown) 100%);
+    border-color: var(--primary-brown);
+}
+
+/* ============================================
+   TOOLTIPS GLASSMORPHISM
+   ============================================ */
+.glass-tooltip {
+    position: absolute;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    z-index: 10000;
+}
+
+.glass-tooltip.show {
+    opacity: 1;
+    transform: translateY(-10px);
+}
+
+/* ============================================
+   RIPPLE EFFECT
+   ============================================ */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform 0.6s, opacity 0.6s;
+    opacity: 0;
+}
+
+.ripple:active::after {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 1;
+    transition: 0s;
+}

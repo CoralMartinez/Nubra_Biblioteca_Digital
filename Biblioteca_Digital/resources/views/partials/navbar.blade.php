@@ -52,7 +52,7 @@
                         </div>
                     </li>
                     <li>
-                        <a class="dropdown-item py-2" href="{{ route('perfil') }}">
+                        <a class="dropdown-item py-2" href="{{ route('perfil.edit') }}">
                             <i class="bi bi-person me-2"></i> Perfil
                         </a>
                     </li>
