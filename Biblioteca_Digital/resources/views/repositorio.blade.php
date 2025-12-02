@@ -5,6 +5,7 @@
 @section('content')
 <div class="repository-container">
     
+    <!-- Header -->
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1.5rem;">
         <div>
             <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-light);">
@@ -14,19 +15,25 @@
                 Explora nuestra colección de libros digitales y recursos
             </p>
         </div>
+        
+        @if(Auth::check() && Auth::user()->rol === 'admin')
         <a href="#" class="glass-btn ripple" style="text-decoration: none;">
             <i class="bi bi-cloud-arrow-up"></i>
             <span>Subir Libro</span>
         </a>
+        @endif
     </div>
 
+    <!-- Stats Grid (Dinámico) -->
     <div class="stats-grid" style="margin-bottom: 2rem;">
         <div class="glass-card card-animate" style="display: flex; align-items: center; gap: 1rem; padding: 1.5rem;">
             <div class="stat-icon" style="font-size: 2rem; color: var(--primary-brown);">
                 <i class="bi bi-book"></i>
             </div>
             <div>
-                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-light); margin: 0;">1,234</h3>
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-light); margin: 0;">
+                    {{ number_format($stats['total_libros']) }}
+                </h3>
                 <p style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">Libros Digitales</p>
             </div>
         </div>
@@ -35,8 +42,10 @@
                 <i class="bi bi-download"></i>
             </div>
             <div>
-                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-light); margin: 0;">12,567</h3>
-                <p style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">Descargas</p>
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-light); margin: 0;">
+                    {{ number_format($stats['descargas']) }}
+                </h3>
+                <p style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">Descargas Totales</p>
             </div>
         </div>
         <div class="glass-card card-animate" style="display: flex; align-items: center; gap: 1rem; padding: 1.5rem;">
@@ -44,256 +53,145 @@
                 <i class="bi bi-eye"></i>
             </div>
             <div>
-                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-light); margin: 0;">45,890</h3>
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-light); margin: 0;">
+                    {{ number_format($stats['vistas']) }}
+                </h3>
                 <p style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">Visualizaciones</p>
             </div>
         </div>
     </div>
 
+    <!-- Filtros y Búsqueda (Formulario Real GET) -->
     <div class="glass-card" style="padding: 1.5rem; margin-bottom: 3rem;">
-        <div style="margin-bottom: 1.5rem; position: relative;">
-            <i class="bi bi-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
-            <input type="text" id="searchInput" class="glass-input" placeholder="Buscar por título, autor, género..." style="padding-left: 3rem; width: 100%;">
-        </div>
+        <form action="{{ route('repositorio.index') }}" method="GET">
+            <div style="margin-bottom: 1.5rem; position: relative;">
+                <i class="bi bi-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                <input type="text" name="search" value="{{ request('search') }}" class="glass-input" placeholder="Buscar por título o autor..." style="padding-left: 3rem; width: 100%;">
+            </div>
 
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <select id="generoFilter" class="glass-input" style="flex: 1; min-width: 150px;">
-                <option value="">Todos los géneros</option>
-                <option value="ficcion">Ficción</option>
-                <option value="no-ficcion">No Ficción</option>
-                <option value="ciencia">Ciencia</option>
-                <option value="tecnologia">Tecnología</option>
-                <option value="historia">Historia</option>
-                <option value="biografia">Biografía</option>
-                <option value="arte">Arte</option>
-            </select>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <select name="genero" class="glass-input" style="flex: 1; min-width: 150px; background-color: rgba(0,0,0,0.3);">
+                    <option value="">Todos los géneros</option>
+                    <option value="ficcion" {{ request('genero') == 'ficcion' ? 'selected' : '' }}>Ficción</option>
+                    <option value="ciencia" {{ request('genero') == 'ciencia' ? 'selected' : '' }}>Ciencia</option>
+                    <option value="historia" {{ request('genero') == 'historia' ? 'selected' : '' }}>Historia</option>
+                    <option value="infantil" {{ request('genero') == 'infantil' ? 'selected' : '' }}>Infantil</option>
+                    <option value="clasico" {{ request('genero') == 'clasico' ? 'selected' : '' }}>Clásico</option>
+                </select>
 
-            <select id="idiomaFilter" class="glass-input" style="flex: 1; min-width: 150px;">
-                <option value="">Todos los idiomas</option>
-                <option value="español">Español</option>
-                <option value="ingles">Inglés</option>
-                <option value="frances">Francés</option>
-                <option value="aleman">Alemán</option>
-            </select>
+                <select name="idioma" class="glass-input" style="flex: 1; min-width: 150px; background-color: rgba(0,0,0,0.3);">
+                    <option value="">Todos los idiomas</option>
+                    <option value="español" {{ request('idioma') == 'español' ? 'selected' : '' }}>Español</option>
+                    <option value="ingles" {{ request('idioma') == 'ingles' ? 'selected' : '' }}>Inglés</option>
+                </select>
 
-            <select id="tipoFilter" class="glass-input" style="flex: 1; min-width: 150px;">
-                <option value="">Tipo de documento</option>
-                <option value="libro">Libro</option>
-                <option value="revista">Revista</option>
-                <option value="articulo">Artículo</option>
-                <option value="tesis">Tesis</option>
-            </select>
+                <select name="orden" class="glass-input" style="flex: 1; min-width: 150px; background-color: rgba(0,0,0,0.3);">
+                    <option value="recientes" {{ request('orden') == 'recientes' ? 'selected' : '' }}>Más recientes</option>
+                    <option value="populares" {{ request('orden') == 'populares' ? 'selected' : '' }}>Más populares</option>
+                    <option value="descargados" {{ request('orden') == 'descargados' ? 'selected' : '' }}>Más descargados</option>
+                    <option value="az" {{ request('orden') == 'az' ? 'selected' : '' }}>A-Z</option>
+                </select>
 
-            <select id="ordenFilter" class="glass-input" style="flex: 1; min-width: 150px;">
-                <option value="recientes">Más recientes</option>
-                <option value="populares">Más populares</option>
-                <option value="descargados">Más descargados</option>
-                <option value="az">A-Z</option>
-                <option value="za">Z-A</option>
-            </select>
-
-            <button class="glass-btn glass-btn-outline" onclick="aplicarFiltros()">
-                <i class="bi bi-funnel"></i> Aplicar
-            </button>
-        </div>
+                <button type="submit" class="glass-btn glass-btn-outline">
+                    <i class="bi bi-funnel"></i> Filtrar
+                </button>
+                
+                @if(request()->anyFilled(['search', 'genero', 'idioma', 'orden']))
+                <a href="{{ route('repositorio.index') }}" class="glass-btn glass-btn-outline" style="border-color: #f56565; color: #f56565;">
+                    <i class="bi bi-x-lg"></i> Limpiar
+                </a>
+                @endif
+            </div>
+        </form>
     </div>
 
-    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-light); display: flex; align-items: center; gap: 0.5rem;">
-        <i class="bi bi-star-fill" style="color: #f1c40f;"></i> Libros Destacados
-    </h2>
-
-    <div class="books-grid" id="destacadosGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+    <!-- Grid de Resultados -->
+    @if($libros->count() > 0)
+    <div class="books-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
         
+        @foreach($libros as $libro)
         <div class="glass-card card-animate book-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-            <div style="position: absolute; top: 10px; right: 10px; background: rgba(241, 196, 15, 0.9); color: #000; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; z-index: 2;">Popular</div>
+            @if($libro->destacado)
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(241, 196, 15, 0.9); color: #000; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; z-index: 2;">
+                Destacado
+            </div>
+            @endif
             
-            <div style="height: 250px; background: linear-gradient(135deg, var(--primary-brown) 0%, #5d4a30 100%); display: flex; align-items: center; justify-content: center;">
-                <i class="bi bi-book-half" style="font-size: 4rem; color: rgba(255,255,255,0.5);"></i>
+            <!-- Portada (Placeholder dinámico o imagen real si existiera) -->
+            <div style="height: 250px; background: linear-gradient(135deg, var(--primary-brown) 0%, #5d4a30 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                @if($libro->ruta_portada)
+                    <img src="{{ asset('storage/' . $libro->ruta_portada) }}" alt="{{ $libro->titulo }}" style="width: 100%; height: 100%; object-fit: cover;">
+                @else
+                    <i class="bi bi-book-half" style="font-size: 4rem; color: rgba(255,255,255,0.5);"></i>
+                    <div style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; text-align: center; color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: bold;">
+                        {{ $libro->genero ? strtoupper($libro->genero) : 'LIBRO' }}
+                    </div>
+                @endif
             </div>
 
             <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
-                <h3 class="book-title" style="font-size: 1.1rem; font-weight: 600; color: var(--text-light); margin-bottom: 0.5rem;">Cien Años de Soledad</h3>
-                <p class="book-author" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Gabriel García Márquez</p>
+                <h3 class="book-title" style="font-size: 1.1rem; font-weight: 600; color: var(--text-light); margin-bottom: 0.5rem; line-height: 1.3;">
+                    {{ $libro->titulo }}
+                </h3>
+                <p class="book-author" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    {{ $libro->autor }}
+                </p>
                 
-                <div class="book-meta" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                    <span class="glass-badge" style="font-size: 0.75rem;">Ficción</span>
-                    <span class="glass-badge" style="font-size: 0.75rem;">Español</span>
+                <div class="book-meta" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <span class="glass-badge" style="font-size: 0.75rem;">{{ ucfirst($libro->genero) }}</span>
+                    <span class="glass-badge" style="font-size: 0.75rem;">{{ ucfirst($libro->idioma) }}</span>
                 </div>
 
                 <div class="book-stats" style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1.5rem;">
-                    <span><i class="bi bi-eye"></i> 1,234</span>
-                    <span><i class="bi bi-download"></i> 567</span>
+                    <span title="Visualizaciones"><i class="bi bi-eye"></i> {{ number_format($libro->vistas) }}</span>
+                    <span title="Descargas"><i class="bi bi-download"></i> {{ number_format($libro->descargas) }}</span>
                 </div>
 
                 <div style="margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-                    <button class="glass-btn glass-btn-outline glass-btn-sm" onclick="verLibro(1)">Ver</button>
-                    <button class="glass-btn glass-btn-sm" onclick="descargarLibro(1)">Descargar</button>
+                    <a href="#" class="glass-btn glass-btn-outline glass-btn-sm" style="justify-content: center;">Ver</a>
+                    <!-- Botón de descarga real (simulada por ahora en controller) -->
+                    {{-- <form action="{{ route('repositorio.download', $libro->id) }}" method="POST" style="width: 100%;"> --}}
+                        {{-- @csrf --}}
+                        <button class="glass-btn glass-btn-sm" style="width: 100%; justify-content: center;" onclick="alert('Funcionalidad de descarga en desarrollo')">
+                            Descargar
+                        </button>
+                    {{-- </form> --}}
                 </div>
             </div>
         </div>
-
-        <div class="glass-card card-animate book-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-            <div style="position: absolute; top: 10px; right: 10px; background: rgba(46, 204, 113, 0.9); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; z-index: 2;">Nuevo</div>
-            
-            <div style="height: 250px; background: linear-gradient(135deg, var(--primary-brown) 0%, #5d4a30 100%); display: flex; align-items: center; justify-content: center;">
-                <i class="bi bi-book-half" style="font-size: 4rem; color: rgba(255,255,255,0.5);"></i>
-            </div>
-
-            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
-                <h3 class="book-title" style="font-size: 1.1rem; font-weight: 600; color: var(--text-light); margin-bottom: 0.5rem;">El Principito</h3>
-                <p class="book-author" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Antoine de Saint-Exupéry</p>
-                
-                <div class="book-meta" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                    <span class="glass-badge" style="font-size: 0.75rem;">Infantil</span>
-                    <span class="glass-badge" style="font-size: 0.75rem;">Español</span>
-                </div>
-
-                <div class="book-stats" style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1.5rem;">
-                    <span><i class="bi bi-eye"></i> 892</span>
-                    <span><i class="bi bi-download"></i> 445</span>
-                </div>
-
-                <div style="margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-                    <button class="glass-btn glass-btn-outline glass-btn-sm" onclick="verLibro(2)">Ver</button>
-                    <button class="glass-btn glass-btn-sm" onclick="descargarLibro(2)">Descargar</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-card card-animate book-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-            <div style="height: 250px; background: linear-gradient(135deg, var(--primary-brown) 0%, #5d4a30 100%); display: flex; align-items: center; justify-content: center;">
-                <i class="bi bi-book-half" style="font-size: 4rem; color: rgba(255,255,255,0.5);"></i>
-            </div>
-
-            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
-                <h3 class="book-title" style="font-size: 1.1rem; font-weight: 600; color: var(--text-light); margin-bottom: 0.5rem;">1984</h3>
-                <p class="book-author" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">George Orwell</p>
-                
-                <div class="book-meta" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                    <span class="glass-badge" style="font-size: 0.75rem;">Distopía</span>
-                    <span class="glass-badge" style="font-size: 0.75rem;">Español</span>
-                </div>
-
-                <div class="book-stats" style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1.5rem;">
-                    <span><i class="bi bi-eye"></i> 756</span>
-                    <span><i class="bi bi-download"></i> 389</span>
-                </div>
-
-                <div style="margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-                    <button class="glass-btn glass-btn-outline glass-btn-sm" onclick="verLibro(3)">Ver</button>
-                    <button class="glass-btn glass-btn-sm" onclick="descargarLibro(3)">Descargar</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-card card-animate book-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-            <div style="height: 250px; background: linear-gradient(135deg, var(--primary-brown) 0%, #5d4a30 100%); display: flex; align-items: center; justify-content: center;">
-                <i class="bi bi-book-half" style="font-size: 4rem; color: rgba(255,255,255,0.5);"></i>
-            </div>
-
-            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
-                <h3 class="book-title" style="font-size: 1.1rem; font-weight: 600; color: var(--text-light); margin-bottom: 0.5rem;">Don Quijote</h3>
-                <p class="book-author" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Miguel de Cervantes</p>
-                
-                <div class="book-meta" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                    <span class="glass-badge" style="font-size: 0.75rem;">Clásico</span>
-                    <span class="glass-badge" style="font-size: 0.75rem;">Español</span>
-                </div>
-
-                <div class="book-stats" style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1.5rem;">
-                    <span><i class="bi bi-eye"></i> 2,145</span>
-                    <span><i class="bi bi-download"></i> 998</span>
-                </div>
-
-                <div style="margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-                    <button class="glass-btn glass-btn-outline glass-btn-sm" onclick="verLibro(4)">Ver</button>
-                    <button class="glass-btn glass-btn-sm" onclick="descargarLibro(4)">Descargar</button>
-                </div>
-            </div>
-        </div>
+        @endforeach
 
     </div>
 
-    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-light);">
-        Catálogo Completo
-    </h2>
-    <div class="books-grid" id="catalogoGrid" style="min-height: 200px;">
-        <div class="glass-card loading" style="text-align: center; padding: 3rem;">
-            <div class="spinner" style="border: 4px solid rgba(139, 111, 71, 0.2); border-top: 4px solid var(--primary-brown); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
-            <p style="margin-top: 1.5rem; color: var(--text-muted);">Cargando catálogo completo...</p>
-        </div>
+    <!-- Paginación -->
+    <div style="padding: 1rem; display: flex; justify-content: center;">
+        {{ $libros->links() }} 
     </div>
+
+    @else
+    <!-- Estado vacío -->
+    <div class="glass-card" style="text-align: center; padding: 4rem 2rem;">
+        <i class="bi bi-search" style="font-size: 3rem; color: var(--text-muted); opacity: 0.5;"></i>
+        <h3 style="margin-top: 1.5rem; color: var(--text-light);">No se encontraron libros</h3>
+        <p style="color: var(--text-muted);">Intenta ajustar tus filtros de búsqueda.</p>
+        <a href="{{ route('repositorio.index') }}" class="glass-btn glass-btn-outline" style="margin-top: 1.5rem;">
+            Ver todos
+        </a>
+    </div>
+    @endif
 
 </div>
 
 <style>
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    /* Estilos de paginación glassmorphism (reutilizados del dashboard) */
+    nav[role="navigation"] { display: flex; justify-content: space-between; align-items: center; }
+    nav[role="navigation"] p { margin-bottom: 0; color: var(--text-muted); font-size: 0.9rem; }
+    nav[role="navigation"] a, nav[role="navigation"] span[aria-current="page"] span {
+        background: transparent !important; border: 1px solid var(--glass-border) !important; color: var(--text-light) !important;
+        padding: 0.5rem 0.75rem; border-radius: 8px; margin: 0 2px; text-decoration: none; transition: all 0.3s ease;
     }
+    nav[role="navigation"] span[aria-current="page"] span { background: var(--primary-brown) !important; border-color: var(--primary-brown) !important; color: white !important; }
+    nav[role="navigation"] a:hover { background: rgba(255,255,255,0.1) !important; }
+    nav[role="navigation"] svg { width: 20px; height: 20px; fill: currentColor; }
 </style>
-
-@push('scripts')
-<script>
-    // ---------------------------------------------------------
-    // TU CÓDIGO JAVASCRIPT ORIGINAL (Sin cambios de lógica)
-    // ---------------------------------------------------------
-
-    // Búsqueda en tiempo real
-    document.getElementById('searchInput').addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        const bookCards = document.querySelectorAll('.book-card');
-        
-        bookCards.forEach(card => {
-            const title = card.querySelector('.book-title').textContent.toLowerCase();
-            const author = card.querySelector('.book-author').textContent.toLowerCase();
-            
-            if (title.includes(searchTerm) || author.includes(searchTerm)) {
-                card.style.display = 'flex'; // Ajustado a flex para mantener el layout de la card
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    });
-
-    // Aplicar filtros
-    function aplicarFiltros() {
-        const genero = document.getElementById('generoFilter').value;
-        const idioma = document.getElementById('idiomaFilter').value;
-        const tipo = document.getElementById('tipoFilter').value;
-        const orden = document.getElementById('ordenFilter').value;
-
-        console.log('Filtros aplicados:', { genero, idioma, tipo, orden });
-        
-        // Alerta adaptada visualmente (opcional, o usar alert normal)
-        alert('Filtros aplicados correctamente (Simulación)');
-    }
-
-    // Ver libro
-    function verLibro(id) {
-        // window.location.href = `/repositorio/${id}`; // Comentado para evitar error 404 en prueba
-        alert('Navegando a ver libro ID: ' + id);
-    }
-
-    // Descargar libro
-    function descargarLibro(id) {
-        alert(`Descargando libro con ID: ${id}`);
-    }
-
-    // Simular carga de más libros (Tu lógica original)
-    setTimeout(() => {
-        const loadingContainer = document.querySelector('.loading');
-        if(loadingContainer) {
-            loadingContainer.parentElement.innerHTML = `
-                <div class="glass-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-                    <i class="bi bi-check-circle" style="font-size: 3rem; color: var(--text-muted); opacity: 0.5;"></i>
-                    <h3 style="margin-top: 1rem; color: var(--text-light);">¡Todos los libros cargados!</h3>
-                    <p style="color: var(--text-muted);">Mostrando la colección completa disponible.</p>
-                </div>
-            `;
-        }
-    }, 2000);
-</script>
-@endpush
-
 @endsection
