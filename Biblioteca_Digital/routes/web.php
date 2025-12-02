@@ -8,6 +8,7 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\AdminUserController; // Aunque no se está usando, se mantiene la importación.
 
 // ZONA PÚBLICA 
 // Rutas accesibles para usuarios no logueados
@@ -29,6 +30,8 @@ Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AuthController::class, 'showAdminLoginForm'])->name('admin.login');
 });
 
+// ---------------------------------------------------------------------------------------------------
+
 // ZONA PROTEGIDA (AUTH)
 // Rutas accesibles SOLO para usuarios logueados (Cualquier rol)
 
@@ -38,11 +41,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/inicio', [InicioController::class, 'index'])->name('home');
     
-    // Perfil de Usuario
+    // Perfil de Usuario (Completas)
     Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
     Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.update');
+    Route::get('/perfil/editar', [PerfilController::class, 'edit'])->name('perfil.edit');
 
-    // --- Módulo Repositorio ---
+    // --- Módulo Repositorio (CRUD Completo con prefijo repositorio.) ---
     Route::prefix('repositorio')->name('repositorio.')->group(function () {
         Route::get('/', [RepositorioController::class, 'index'])->name('index');
         Route::get('/create', [RepositorioController::class, 'create'])->name('create');
@@ -53,7 +57,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [RepositorioController::class, 'destroy'])->name('destroy');
     });
 
-    // --- Módulo Inventario ---
+    // --- Módulo Inventario (CRUD Completo con prefijo inventario.) ---
+    // NOTA: Esta ruta NO está en el grupo 'admin.' y usa el nombre 'inventario.index' 
+    //       para que las redirecciones en InventarioController funcionen.
     Route::prefix('inventario')->name('inventario.')->group(function () {
         Route::get('/', [InventarioController::class, 'index'])->name('index');
         Route::get('/create', [InventarioController::class, 'create'])->name('create');
@@ -65,6 +71,8 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+// ---------------------------------------------------------------------------------------------------
+
 // ZONA ADMINISTRADOR (Middleware 'AdminMiddleware')
 // Solo entran usuarios con rol 'admin'
 Route::middleware(AdminMiddleware::class)->prefix('admin')->name('admin.')->group(function () {
@@ -72,8 +80,23 @@ Route::middleware(AdminMiddleware::class)->prefix('admin')->name('admin.')->grou
     // Dashboard del Administrador
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     
-    // --- GESTIÓN DE USUARIOS ---
+    // --- GESTIÓN DE USUARIOS (Rutas Corregidas) ---
+    
+    // 1. INDEX (Listado de usuarios) - SOLUCIONA EL ERROR 'admin.users.index'
+    Route::get('/users', [AdminController::class, 'indexUsers'])->name('users.index');
+    
+    // 2. CREATE (Formulario para añadir)
+    Route::get('/users/create', [AdminController::class, 'createUsers'])->name('users.create');
+    
+    // 3. EDIT (Formulario para editar)
+    Route::get('/users/{id}/edit', [AdminController::class, 'editUsers'])->name('users.edit');
+    
+    // 4. POST (Guardar nuevo usuario)
     Route::post('/users', [AdminController::class, 'store'])->name('users.store');
+    
+    // 5. PUT (Actualizar usuario)
     Route::put('/users/{id}', [AdminController::class, 'update'])->name('users.update');
+    
+    // 6. DELETE (Eliminar usuario)
     Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
 });

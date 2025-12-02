@@ -83,7 +83,7 @@ class AuthController extends Controller
         // --- LÓGICA DE REDIRECCIÓN (AQUÍ ESTÁ EL CAMBIO) ---
         
         // Si el rol es 'admin', lo enviamos a su Dashboard
-        if ($usuario->rol === 'admin') {
+        if ($usuario->role === 'admin') {
             return redirect()->intended('/admin/dashboard');
         }
 
