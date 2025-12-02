@@ -6,15 +6,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
 
-# 1. Configuración de Base de Datos (Usa las mismas credenciales que tu .env de Laravel)
-# Formato: mysql+pymysql://usuario:password@host:puerto/nombre_bd
+#Configuración de Base de Datos
 SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:bd2025+@localhost:3306/biblioteca_nubra"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# 2. Modelo de Base de Datos (Espejo de tu migración Laravel)
+#Modelo de Base de Datos 
 class LibroFisicoDB(Base):
     __tablename__ = "libros_fisicos"
 
@@ -25,7 +24,7 @@ class LibroFisicoDB(Base):
     clasificacion = Column(String(50))
     ubicacion = Column(String(100))
 
-# 3. Esquema Pydantic (Para validar datos que entran y salen)
+#Esquema Pydantic (Para validar datos que entran y salen)
 class LibroFisicoBase(BaseModel):
     titulo: str
     autor: str
@@ -38,13 +37,13 @@ class LibroFisico(LibroFisicoBase):
     class Config:
         from_attributes = True
 
-# 4. Inicializar App
+#Inicializar App
 app = FastAPI()
 
 # Configurar CORS (Para que Laravel/JS pueda llamar a esta API)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # En producción cambiar por la URL de Laravel
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
