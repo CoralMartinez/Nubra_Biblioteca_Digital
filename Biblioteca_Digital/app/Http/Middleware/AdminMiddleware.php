@@ -18,11 +18,11 @@ class AdminMiddleware
     {
         // 1. Si NO está logueado, mandarlo al login de admin
         if (!Auth::check()) {
-            return redirect()->route('admin.login');
+            return redirect()->route('admin.dashboard');
         }
 
         // 2. Si está logueado pero NO es admin
-        if (Auth::user()->rol !== 'admin') {
+        if (Auth::user()->role !== 'admin') {
             // Lo expulsamos al inicio de usuario normal
             return redirect('/inicio')->withErrors(['acceso' => 'Acceso no autorizado.']);
         }
