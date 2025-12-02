@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// NOTA: Ya no importamos App\Models\LibroFisico porque FastAPI maneja los datos.
 
 class InventarioController extends Controller
 {
@@ -16,19 +15,16 @@ class InventarioController extends Controller
         return view('inventario.index');
     }
 
-    /**
-     * Muestra el formulario de creación.
-     */
+    
+    //Muestra el formulario de creación.
+     
     public function create()
     {
         return view('inventario.create');
     }
 
-    /**
-     * Muestra el formulario de edición.
-     * CORRECCIÓN: Ya no buscamos en la BD con Eloquent.
-     * Solo pasamos el ID a la vista para que JS consulte a FastAPI.
-     */
+    //Muestra el formulario de edición.
+     //Solo pasamos el ID a la vista para que JS consulte a FastAPI.
     public function edit(string $id)
     {
         // Creamos un objeto simple solo con el ID para que la vista no falle
@@ -39,9 +35,6 @@ class InventarioController extends Controller
     }
 
     // --- MÉTODOS OBSOLETOS (Deshabilitados) ---
-    // Como ahora tu Frontend (Blade + JS) se comunica directamente con Python (FastAPI),
-    // estos métodos de Laravel ya no se utilizan. Los dejo comentados o vacíos
-    // para evitar errores si alguna ruta antigua intenta llamarlos.
 
     public function store(Request $request)
     {
